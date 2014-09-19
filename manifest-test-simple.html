@@ -10,5 +10,6 @@
   <button onclick="screen.orientation.lock('natural');">natural</button>
   <button onclick="screen.orientation.unlock();">unlock</button>
   <button onclick="history.replaceState({}, 'fake page', 'fake.html');">replaceState</button>
+  <button onclick="var d=document.createElement('div'); d.innerHTML=document.location.href; document.body.appendChild(d)">url</button>
 </body>
 </html>
