@@ -3,5 +3,5 @@
   "short_name": "GH Sandbox",
   "display": "standalone",
   "orientation": "landscape",
-  "icons": [ { "src": "icon-48-48-1x.png", "sizes": "48x48", "density": 1, "type": "image/png" } ]
+  "icons": [ { "src": "icon-48-48-x1.png", "sizes": "48x48", "density": 1, "type": "image/png" } ]
 }
