@@ -1,9 +1,8 @@
 {
   "name": "Mounir Lamouri GitHub's sandbox repository",
   "short_name": "GH Sandbox",
-  "display": "standalone",
+  "display": {"standalone"},
   "orientation": "landscape",
   "icons": [ { "src": "icon-48-48-x1.png", "sizes": "48x48", "density": "1", "type": "image/png" },
              { "src": "icon-96-96-x2.png", "sizes": "96x96", "density": "2", "type": "image/png" }]
 }
-,iue
