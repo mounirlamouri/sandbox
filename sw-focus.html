@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sandbox/sw-focus.js', {
+    scope: '/sandbox/'
+  }).then(function(reg) {
+    console.log('◕‿◕', reg);
+  }, function(err) {
+    console.log('ಠ_ಠ', err);
+  });
+}
+</script>
+</body>
+</html>
