@@ -2,6 +2,7 @@ self.onmessage = function(event) {
 //  event.waitUntil(
 //  );
   console.log('message received ' + event);
+  console.log(self.clients);
   
   event.waitUntil(
 //    self.clients.getAll().then(function(c) {
