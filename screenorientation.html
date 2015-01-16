@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta name='mobile-web-app-capable' content='yes'>
+  <title>Screen Orientation Test Page</title>
+  <style>
+    #log {
+      border: 1px solid black;
+      background: rgba(182, 182, 182, 0.5);
+    }
+  </style>
+</head>
+<script>
+  function log(str) {
+    document.getElementById('log').innerHTML += '<div>' + str + '</div>';
+  }
+
+  function isInScreenInterface(str) {
+    return (str in window.screen);
+  }
+
+  function isInOrientationInterface(str) {
+    return (str in window.screen.orientation);
+  }
+ 
+  function isAPIPresent() {
+    return isInScreenInterface('orientation') &&
+           isInOrientationInterface('lock') &&
+           isInOrientationInterface('unlock') &&
+           isInOrientationInterface('angle') &&
+           isInOrientationInterface('onchange');
+  }
+
+  function orientationToString() {
+    return screen.orientation.angle + ' ' + screen.orientation.type;
+  }
+
+  addEventListener('load', function() {
+    var hasAPI = isAPIPresent();
+    if (!hasAPI) {
+      log('Screen Orientation API not found.');
+      return;
+    }
+
+    log('Screen Orientation API found.');
+    log('Initial orientation: ' + orientationToString());
+
+    var buttons = document.querySelectorAll('input[type=button]');
+    for (var i=0; i<buttons.length; ++i) {
+      if (buttons[i].id == 'unlock') {
+        buttons[i].onclick = function() { window.screen.orientation.unlock(); }
+      } else {
+        buttons[i].onclick = function() {
+	}
+      }
+    }
+  });
+
+  if ('orientation' in window.screen) {
+    window.screen.orientation.onchange = function() {
+      log('onchange called - ' + orientationToString());
+    };
+
+    window.screen.orientation.addEventListener('change', function() {
+      log('change event - ' + orientationToString());
+    });
+  }
+
+  // DEPRECATED API
+  if ('orientation' in window) {
+    window.addEventListener('load', function() {
+      log('(deprecated api) window.orientation: ' + window.orientation);
+    });
+    window.addEventListener('orientationchange', function() {
+      log('(deprecated api) orientationchange: ' + window.orientation);
+    });
+  }
+
+</script>
+<body>
+  <div>github.com</div>
+  <label>Lock to
+  <select id='lock-value'>
+    <option label='natural' value='natural'>
+    <option label='portrait' value='portrait'>
+    <option label='portrait-primary' value='portrait-primary'>
+    <option label='portrait-secondary' value='portrait-secondary'>
+    <option label='landscape' value='landscape'>
+    <option label='landscape-primary' value='landscape-primary'>
+    <option label='landscape-secondary' value='landscape-secondary'>
+    <option label='any' value='any'>
+  </select>
+  </label>
+  <button type='button' onclick='lock();'>Go</button><br>
+  <input type='button' id='unlock' value='Unlock'><br>
+  <button type='button' onclick='toggleFullscreen();'>Toggle Fullscreen</button>
+  <div id='log'></div>
+  <a href='http://oldworld.fr/google/screenorientation-vr.html'>Try VR Demo</a>
+<script>
+  function lock() {
+    screen.orientation.lock(document.getElementById('lock-value').value).then(function() {
+      log('Lock succeeded: ' + orientationToString());
+    }, function(e) {
+      log('Lock failed: ' + e);
+    });
+  }
+
+  function unlock() {
+    screen.orientation.unlock();
+  }
+
+  function toggleFullscreen() {
+    if (document.webkitFullscreenElement) {
+      document.webkitExitFullscreen();
+    } else {
+      document.documentElement.webkitRequestFullscreen();
+    }
+  }
+</script>
+</body>
+</html>
