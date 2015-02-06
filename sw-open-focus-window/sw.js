@@ -17,7 +17,9 @@ function testFocusWindow() {
     clients.getAll().then(function(clients) {
       clients.forEach(function(c) {
         if (c.url.search('blank') == -1)
-          c.focus();
+          c.focus().then(function(result) {
+            console.log(result);
+          });
       });
     }));
   });
@@ -25,8 +27,10 @@ function testFocusWindow() {
 
 function testOpenWindow() {
   getNotificationClickAndExecute(function() {
-    clients.openWindow('/sandbox/sw-open-focus-window/blank.html').
-      then(testFocusWindow);
+    clients.openWindow('/sandbox/sw-open-focus-window/blank.html')
+    .then(function(result) {
+      console.log(result);
+    }).then(testFocusWindow);
   });
 }
 
