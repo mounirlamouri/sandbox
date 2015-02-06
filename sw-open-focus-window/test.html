@@ -4,13 +4,12 @@
   <title>Test page for ServiceWorker open/focus window feature</title>
 </head>
 <body>
+  <div>Click the notification</div>
 </body>
 <script>
 navigator.serviceWorker.register('sw.js', {
   scope: '/sandbox/sw-open-focus-window/'
 }).then(function(r) {
-  console.log('registered');
-
   Notification.requestPermission(function() {
     if (navigator.serviceWorker.controller)
       navigator.serviceWorker.controller.postMessage('start');
