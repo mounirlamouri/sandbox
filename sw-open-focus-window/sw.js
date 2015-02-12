@@ -38,8 +38,15 @@ function testOpenWindow() {
 }
 
 self.onmessage = function(e) {
-  if (e.data == 'start') {
-    testOpenWindow();
+  switch (e.data) {
+    case 'openWindow':
+      testOpenWindow();
+      break;
+    case 'focus':
+      testFocusWindow();
+      break;
+    default:
+      console.error('Received unknown message');
   }
 }
 
