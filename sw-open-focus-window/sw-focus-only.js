@@ -15,8 +15,7 @@ function getNotificationClickAndExecute(callback) {
 function testFocusWindow() {
   getNotificationClickAndExecute(function(e) {
     e.waitUntil(clients.getAll().then(function(clients) {
-      if (clients.length > 0)
-        clienst[0].focus();
+      clienst[0].focus();
     }));
   });
 }
