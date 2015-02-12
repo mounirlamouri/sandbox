@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test page for ServiceWorker focus window feature</title>
+</head>
+<body>
+  <div>Click the notification</div>
+</body>
+<script>
+navigator.serviceWorker.register('sw-focus-only.js', {
+  scope: '/sandbox/sw-open-focus-window/'
+}).then(function(r) {
+  Notification.requestPermission(function() {
+    if (navigator.serviceWorker.controller)
+      navigator.serviceWorker.controller.postMessage('start');
+    else
+      alert('Please reload');
+  });
+});
+</script>
+</html>
