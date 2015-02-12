@@ -2,9 +2,13 @@
 <html>
 <head>
   <title>Test page for ServiceWorker open/focus window feature</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link rel='manifest' href='manifest.json'>
 </head>
 <body>
-  <div>Click the notification</div>
+  <div>Create a notification and choose the behaviour you prefer:</div>
+  <button>Create new window</button>
+  <button>Focus an existing window</button>
 </body>
 <script>
 navigator.serviceWorker.register('sw.js', {
