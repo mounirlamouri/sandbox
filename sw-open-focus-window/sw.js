@@ -32,7 +32,7 @@ function testOpenWindow() {
       clients.openWindow('/sandbox/sw-open-focus-window/blank.html')
       .then(function(result) {
         console.log(result);
-      }).then(testFocusWindow);
+      });
     }));
   });
 }
