@@ -15,11 +15,17 @@ navigator.serviceWorker.register('sw.js', {
   scope: '/sandbox/sw-open-focus-window/'
 }).then(function(r) {
   Notification.requestPermission(function() {
-    if (navigator.serviceWorker.controller)
-      navigator.serviceWorker.controller.postMessage('start');
-    else
+    if (!navigator.serviceWorker.controller)
       alert('Please reload');
   });
 });
+
+function openWindowNotification() {
+  navigator.serviceWorker.controller.postMessage('openWindow');
+}
+
+function focusNotification() {
+  navigator.serviceWorker.controller.postMessage('focus');
+}
 </script>
 </html>
