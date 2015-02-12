@@ -4,6 +4,7 @@ console.log('started');
 function getNotificationClickAndExecute(callback) {
   var callback_wrapper = function(e) {
     self.removeEventListener('notificationclick', callback_wrapper);
+    e.notification.close();
     callback(e);
   }
   self.addEventListener('notificationclick', callback_wrapper);
