@@ -8,7 +8,7 @@
 </body>
 <script>
 navigator.serviceWorker.register('sw-focus-only.js', {
-  scope: '/sandbox/sw-open-focus-window/'
+  scope: '/sandbox/sw-open-focus-window/focus-test.html'
 }).then(function(r) {
   Notification.requestPermission(function() {
     if (navigator.serviceWorker.controller)
