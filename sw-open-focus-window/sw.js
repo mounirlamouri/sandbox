@@ -38,6 +38,7 @@ function testOpenWindow() {
 }
 
 self.onmessage = function(e) {
+  console.log('received: ' + e.data);
   switch (e.data) {
     case 'openWindow':
       testOpenWindow();
