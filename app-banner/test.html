@@ -14,4 +14,9 @@ navigator.serviceWorker.register('sw.js', {
 <body>
   <img src='https://lh3.ggpht.com/O0aW5qsyCkR2i7Bu-jUU1b5BWA_NygJ6ui4MgaAvL7gfqvVWqkOBscDaq4pn-vkwByUx=w300'>
 </body>
+<script>
+  window.addEventListener('beforechromeinstallprompt', function(e) {
+    console.log('in beforechromeinstallprompt event handler');
+  });
+</script>
 </html>
