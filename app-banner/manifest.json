@@ -9,5 +9,6 @@
     }
   ],
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "start_url": "test.html"
 }
