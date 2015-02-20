@@ -17,6 +17,8 @@ navigator.serviceWorker.register('sw.js', {
 <script>
   window.addEventListener('beforechromeinstallprompt', function(e) {
     console.log('in beforechromeinstallprompt event handler');
+    console.log('preventing default');
+    e.preventDefault();
   });
 </script>
 </html>
