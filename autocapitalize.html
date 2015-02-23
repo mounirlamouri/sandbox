@@ -4,5 +4,34 @@
   <title>autocapitalize test page</title>
 </head>
 <body>
+  <input type='text'>
+  <input type='email'>
+  <input type='password'>
+  <input type='url'>
+  <form></form>
+  <textarea></textarea>
+  <div id='log'></div>
 </body>
+<script>
+  function log(text) {
+    var entry = document.createElement('div');
+    entry.textContent = text;
+    document.getElementById('log').appendChild(entry);
+  }
+  
+  function isSupported(elt) {
+    return 'autocapitalize' in elt;
+  }
+  
+  var input = document.querySelector('input[type=text']);
+  var email = document.querySelector('input[type=email']);
+  var password = document.querySelector('input[type=password']);
+  var url = document.querySelector('input[type=url']);
+  var email = document.querySelector('input[type=email']);
+  var form = document.querySelector('form');
+  var textarea = document.querySelector('textarea');
+  
+  // Is supported?
+  log('is supported for input: ' + isSupported(input));
+</script>
 </html>
