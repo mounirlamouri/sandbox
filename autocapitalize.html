@@ -23,14 +23,30 @@
     return 'autocapitalize' in elt;
   }
   
-  var input = document.querySelector('input[type=text]');
-  var email = document.querySelector('input[type=email]');
-  var password = document.querySelector('input[type=password]');
-  var url = document.querySelector('input[type=url]');
-  var form = document.querySelector('form');
-  var textarea = document.querySelector('textarea');
-  
-  // Is supported?
-  log('is supported for input: ' + isSupported(input));
+  var elements = [{
+    obj: document.querySelector('input[type=text]'),
+    name: 'input text',
+  }, {
+    obj: document.querySelector('input[type=email]'),
+    name: 'input email',
+  }, {
+    obj: document.querySelector('input[type=password]'),
+    name: 'input password',
+  }, {
+    obj: document.querySelector('input[type=url]'),
+    name: 'input url',
+  }, {
+    obj: document.querySelector('form'),
+    name: 'form',
+  }, {
+    obj: document.querySelector('textarea'),
+    name: 'textarea',
+  }];
+
+  elements.forEach(function(elt) {
+    log('> ' + elt.name)
+    log('is supported: ' + isSupported(elt.obj));
+    log('default value: ' + elt.obj.autocapitalize);
+  });
 </script>
 </html>
