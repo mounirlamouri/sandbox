@@ -13,10 +13,9 @@
 
 <fieldset>
   <legend>Requests</legend>
-  <button>Geolocation</button>
-  <button>Notifications</button>
-  <button>Midi</button>
-  <button>Midi SysEx</button>
+  <button onclick="navigator.geolocation.getCurrentPosition(function(){});">Geolocation</button>
+  <button onclick="Notification.requestPermission();">Notifications</button>
+  <button onclick="navigator.requestMIDIAccess({sysex:true});"></button>Midi SysEx</button>
   <button>Push Notifications</button>
 </fieldset>
 </body>
@@ -38,5 +37,6 @@
       document.getElementById('push-notifications').textContent = p.status;
     });
   }
+  setInterval(refresh, 1000);
 </script>
 </html>
