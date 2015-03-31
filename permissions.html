@@ -34,7 +34,7 @@
 <script>
   function refresh() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
-      var update = update('geolocation', p.status);
+      var update = function() { update('geolocation', p.status) };
       update();
       p.onchange = update;
     });
