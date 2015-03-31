@@ -35,28 +35,33 @@
   function updatePermission(name, status) {
     document.getElementById(name).textContent = status;
   }
-  function refresh() {
+  function init() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
       var update = function() { updatePermission('geolocation', p.status); };
       update();
       p.onchange = update;
     });
     navigator.permissions.query({name:'notifications'}).then(function(p) {
-      document.getElementById('notifications').textContent = p.status;
+      var update = function() { updatePermission('notifications', p.status); };
+      update();
+      p.onchange = update;
     });
     navigator.permissions.query({name:'midi', sysex:false}).then(function(p) {
-      document.getElementById('midi').textContent = p.status;
+      var update = function() { updatePermission('midi', p.status); };
+      update();
+      p.onchange = update;
     });
     navigator.permissions.query({name:'midi', sysex:true}).then(function(p) {
-      document.getElementById('midi-sysex').textContent = p.status;
+      var update = function() { updatePermission('midi-sysex', p.status); };
+      update();
+      p.onchange = update;
     });
     navigator.permissions.query({name:'push', userVisible:true}).then(function(p) {
-      document.getElementById('push-notifications').textContent = p.status;
+      var update = function() { updatePermission('push-notifications', p.status); };
+      update();
+      p.onchange = update;
     });
   }
-  refresh();
-  
-  // TODO: to be removed when the change event implementation is finished.
-  //setInterval(refresh, 1000);
+  init();
 </script>
 </html>
