@@ -6,11 +6,11 @@
 </head>
 <body>
 <h3>Permissions</h3>
-<div><b></b>Geolocation:</b> <span id='geolocation'></span></div>
-<div><b></b>Notifications:</b> <span id='notifications'></span></div>
-<div><b></b>Midi:</b> <span id='midi'></span></div>
-<div><b></b>Midi SysEx:</b> <span id='midi-sysex'></span></div>
-<div><b></b>Push Notifications:</b> <span id='push-notifications'></span></div>
+<div><b>Geolocation:</b> <span id='geolocation'></span></div>
+<div><b>Notifications:</b> <span id='notifications'></span></div>
+<div><b>Midi:</b> <span id='midi'></span></div>
+<div><b>Midi SysEx:</b> <span id='midi-sysex'></span></div>
+<div><b>Push Notifications:</b> <span id='push-notifications'></span></div>
 
 <fieldset>
   <legend>Requests</legend>
@@ -49,6 +49,8 @@
       document.getElementById('push-notifications').textContent = p.status;
     });
   }
+  refresh();
+  
   // TODO: to be removed when the change event implementation is finished.
   setInterval(refresh, 1000);
 </script>
