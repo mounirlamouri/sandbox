@@ -1,0 +1,35 @@
+<!DOCTYPE  html>
+<html>
+<head>
+<title>Permissions API test page</title>
+<link rel='manifest' href='manifest.json'>
+</head>
+<body>
+<h3>Permissions</h3>
+<div><b>Geolocation:</b> <span id='geolocation'></span></div>
+<div><b>Notifications:</b> <span id='notifications'></span></div>
+
+<fieldset>
+  <legend>Requests</legend>
+  <button onclick="navigator.geolocation.getCurrentPosition(function(){});">Geolocation</button>
+  <button onclick="Notification.requestPermission();">Notifications</button>
+</fieldset>
+</body>
+<script>
+  function init() {
+    navigator.permissions.query({name:'geolocation'}).then(function(p) {
+      updatePermission('geolocation', p.status);
+      p.onchange = function() {
+        updatePermission('geolocation, p.status);
+      };
+    });
+    navigator.permissions.query({name:'notifications'}).then(function(p) {
+      updatePermission('notifications', p.status);
+      p.onchange = function() {
+        updatePermission('notifications, p.status);
+      };
+    });
+  }
+  init();
+</script>
+</html>
