@@ -21,6 +21,15 @@
 </fieldset>
 </body>
 <script>
+  navigator.serviceWorker.register('/sandbox/sw-focus.js', {
+    scope: '/sandbox/'
+  }).then(function(reg) {
+    return reg.pushManager.getRegistration();
+  }).then(function(reg) {
+    console.log('push reg', reg);
+  });
+</script>
+<script>
   function refresh() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
       document.getElementById('geolocation').textContent = p.status;
