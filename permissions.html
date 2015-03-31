@@ -6,9 +6,9 @@
 <body>
 <h3>Permissions</h3>
 <div>Geolocation <span id='geolocation'></span></div>
-<div>Notifications< <span id='notifications'></span></div>
+<div>Notifications <span id='notifications'></span></div>
 <div>Midi <span id='midi'></span></div>
-<div>Midi SysEx <span id='midi'></span</div>
+<div>Midi SysEx <span id='midi-sysex'></span</div>
 <div>Push Notifications <span id='push-notifications'></span></div>
 
 <fieldset>
@@ -20,4 +20,23 @@
   <button>Push Notifications</button>
 </fieldset>
 </body>
+<script>
+  void refresh() {
+    navigator.permissions.query({name:'geolocation'}).then(function(p) {
+      document.getElementById('geolocation').textContent = p.status;
+    });
+    navigator.permissions.query({name:'notifications'}).then(function(p) {
+      document.getElementById('notifications').textContent = p.status;
+    });
+    navigator.permissions.query({name:'midi', sysex:false}).then(function(p) {
+      document.getElementById('midi').textContent = p.status;
+    });
+    navigator.permissions.query({name:'midi', sysex:true}).then(function(p) {
+      document.getElementById('midi-sysex').textContent = p.status;
+    });
+    navigator.permissions.query({name:'push', userVisible:true}).then(function(p) {
+      document.getElementById('push-notifications').textContent = p.status;
+    });
+  }
+</script>
 </html>
