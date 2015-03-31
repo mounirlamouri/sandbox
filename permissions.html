@@ -34,7 +34,9 @@
 <script>
   function refresh() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
-      document.getElementById('geolocation').textContent = p.status;
+      var update = update('geolocation', p.status);
+      update();
+      p.onchange = update;
     });
     navigator.permissions.query({name:'notifications'}).then(function(p) {
       document.getElementById('notifications').textContent = p.status;
@@ -52,6 +54,6 @@
   refresh();
   
   // TODO: to be removed when the change event implementation is finished.
-  setInterval(refresh, 1000);
+  //setInterval(refresh, 1000);
 </script>
 </html>
