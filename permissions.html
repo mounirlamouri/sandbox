@@ -32,9 +32,13 @@
   }
 </script>
 <script>
+  function updatePermission(name, status) {
+    document.getElementById(name).textContent = status;
+  }
+  
   function refresh() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
-      var update = function() { update('geolocation', p.status) };
+      var update = function() { update('geolocation', p.status); };
       update();
       p.onchange = update;
     });
