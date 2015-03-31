@@ -21,7 +21,7 @@
 </fieldset>
 </body>
 <script>
-  void refresh() {
+  function refresh() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
       document.getElementById('geolocation').textContent = p.status;
     });
