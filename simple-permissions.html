@@ -15,9 +15,10 @@
 </fieldset>
 </body>
 <script>
- function updatePermission(name, status) {
-document.getElementById(name).textContent = status;
-}
+  function updatePermission(name, status) {
+    console.log('update permission for ' + name + ' with ' + status)
+    document.getElementById(name).textContent = status;
+  }
   function init() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
       updatePermission('geolocation', p.status);
