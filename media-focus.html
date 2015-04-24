@@ -5,21 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <audio controls>
-    <source src="http://media.w3.org/2010/07/bunny/04-Death_Becomes_Fur.mp4" type='audio/mp4' />
-    <source src="http://media.w3.org/2010/07/bunny/04-Death_Becomes_Fur.oga" type='audio/ogg; codecs=vorbis' />
-    <p>Your browser does not support HTML5 Audio.</p>
-  </audio>
+  <section>
+    <h2>HTML5 Audio</h2>
+    <audio controls>
+      <source src="http://media.w3.org/2010/07/bunny/04-Death_Becomes_Fur.mp4" type='audio/mp4' />
+      <source src="http://media.w3.org/2010/07/bunny/04-Death_Becomes_Fur.oga" type='audio/ogg; codecs=vorbis' />
+      <p>Your browser does not support HTML5 Audio.</p>
+    </audio>
+  </section>
 
-  <iframe id="ytplayer" type="text/html" width="640" height="390"
-          src="http://www.youtube.com/embed/h8CEU0iPmqM" frameborder="0">
-  </iframe>
+  <section>
+    <h2>HTML5 Video</h2>
+    <video id="html5-video" controls autobuffer height="240" width="360"
+      poster="http://broken-links.com/tests/images/bbb_poster-360x240.jpg">
+      <source src="http://broken-links.com/tests/media/BigBuck.m4v">
+      <source src="http://broken-links.com/tests/media/BigBuck.webm" type="video/webm">
+      <source src="http://broken-links.com/tests/media/BigBuck.theora.ogv" type="video/ogg">
+    </video>
+  </section>
 
-  <video id="html5-video" controls autobuffer height="240" width="360"
-         poster="http://broken-links.com/tests/images/bbb_poster-360x240.jpg">
-    <source src="http://broken-links.com/tests/media/BigBuck.m4v">
-    <source src="http://broken-links.com/tests/media/BigBuck.webm" type="video/webm">
-		<source src="http://broken-links.com/tests/media/BigBuck.theora.ogv" type="video/ogg">
-	</video>
+  <section>
+    <h2>iframe playing Youtube (HTML5)</h2>
+    <iframe id="ytplayer" type="text/html" width="640" height="390"
+      src="http://www.youtube.com/embed/h8CEU0iPmqM" frameborder="0">
+    </iframe>
+  </section>
 </body>
 </html>
