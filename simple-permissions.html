@@ -15,21 +15,21 @@
 </fieldset>
 </body>
 <script>
-  function updatePermission(name, status) {
-    console.log('update permission for ' + name + ' with ' + status)
-    document.getElementById(name).textContent = status;
+  function updatePermission(name, state) {
+    console.log('update permission for ' + name + ' with ' + state)
+    document.getElementById(name).textContent = state;
   }
   function init() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
-      updatePermission('geolocation', p.status);
+      updatePermission('geolocation', p.state);
       p.onchange = function() {
-        updatePermission('geolocation', p.status);
+        updatePermission('geolocation', p.state);
       };
     });
     navigator.permissions.query({name:'notifications'}).then(function(p) {
-      updatePermission('notifications', p.status);
+      updatePermission('notifications', p.state);
       p.onchange = function() {
-        updatePermission('notifications', p.status);
+        updatePermission('notifications', p.state);
       };
     });
   }
