@@ -32,32 +32,32 @@
   }
 </script>
 <script>
-  function updatePermission(name, status) {
-    document.getElementById(name).textContent = status;
+  function updatePermission(name, state) {
+    document.getElementById(name).textContent = state;
   }
   function init() {
     navigator.permissions.query({name:'geolocation'}).then(function(p) {
-      var update = function() { updatePermission('geolocation', p.status); };
+      var update = function() { updatePermission('geolocation', p.state); };
       update();
       p.onchange = update;
     });
     navigator.permissions.query({name:'notifications'}).then(function(p) {
-      var update = function() { updatePermission('notifications', p.status); };
+      var update = function() { updatePermission('notifications', p.state); };
       update();
       p.onchange = update;
     });
     navigator.permissions.query({name:'midi', sysex:false}).then(function(p) {
-      var update = function() { updatePermission('midi', p.status); };
+      var update = function() { updatePermission('midi', p.state); };
       update();
       p.onchange = update;
     });
     navigator.permissions.query({name:'midi', sysex:true}).then(function(p) {
-      var update = function() { updatePermission('midi-sysex', p.status); };
+      var update = function() { updatePermission('midi-sysex', p.state); };
       update();
       p.onchange = update;
     });
     navigator.permissions.query({name:'push', userVisibleOnly:true}).then(function(p) {
-      var update = function() { updatePermission('push-notifications', p.status); };
+      var update = function() { updatePermission('push-notifications', p.state); };
       update();
       p.onchange = update;
     });
