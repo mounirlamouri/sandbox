@@ -1,0 +1,20 @@
+<!DOCTYPE>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Permissions API request test page</title>
+</head>
+<body>
+  <input type='button' value='Geolocation'>
+  <input type='button' value='Geolocation + Notifications'>
+</body>
+<script>
+  var buttons = document.querySelectionAll('input');
+  buttons[0].onclick = function() {
+    navigator.permissions.request({name:'geolocation'});
+  };
+  buttons[1].onclick = function() {
+    navigator.permissions.request([{name:'geolocation'}, {name:'notifications'}]);
+  };
+</script>
+</htmL>
