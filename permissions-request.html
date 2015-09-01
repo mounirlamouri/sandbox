@@ -9,7 +9,7 @@
   <input type='button' value='Geolocation + Notifications'>
 </body>
 <script>
-  var buttons = document.querySelectiorAll('input');
+  var buttons = document.querySelectorAll('input');
   buttons[0].onclick = function() {
     navigator.permissions.request({name:'geolocation'});
   };
