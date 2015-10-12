@@ -8,6 +8,11 @@
       "type": "image/png"
     },
     {
+      "src": "text.txt",
+      "sizes": "128x128 256x256",
+      "type": "image/png"
+    },
+    {
       "src": "https://lh3.ggpht.com/O0aW5qsyCkR2i7Bu-jUU1b5BWA_NygJ6ui4MgaAvL7gfqvVWqkOBscDaq4pn-vkwByUx=w300",
       "sizes": "192x192",
       "type": "image/png"
