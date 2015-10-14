@@ -25,6 +25,5 @@
   ],
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "test.html",
-  "theme_color": "green"
+  "start_url": "test.html"
 }
