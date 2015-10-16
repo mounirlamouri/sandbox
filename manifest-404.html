@@ -4,5 +4,15 @@
     <link rel=manifest href='404.html'>
   </head>
   <body>
+    navigator.serviceWorker.register('/sandbox/sw-dummy.js', {
+      scope: '/sandbox/'
+    }).then(function(reg) {
+      console.log('◕‿◕', reg);
+      // Test for push.
+      reg.pushManager.getRegistration().then(function() { console.log('push reg', reg) },
+                                             function() { console.log('error!'); });
+    }, function(err) {
+      console.log('ಠ_ಠ', err);
+    });
   </body>
 </html>
