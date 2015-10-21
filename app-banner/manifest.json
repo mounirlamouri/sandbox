@@ -25,6 +25,6 @@
   ],
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "green",
+  "theme_color": "rgba(215, 120, 203, 0.2)",
   "start_url": "test.html"
 }
