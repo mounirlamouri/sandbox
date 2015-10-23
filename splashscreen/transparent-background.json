@@ -1,6 +1,18 @@
 {
-  "name": "foo",
+  "short_name": "foo",
+  "icons": [
+    {
+      "src": "https://lh3.ggpht.com/O0aW5qsyCkR2i7Bu-jUU1b5BWA_NygJ6ui4MgaAvL7gfqvVWqkOBscDaq4pn-vkwByUx=w128",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://lh3.ggpht.com/O0aW5qsyCkR2i7Bu-jUU1b5BWA_NygJ6ui4MgaAvL7gfqvVWqkOBscDaq4pn-vkwByUx=w192",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
   "display": "standalone",
   "theme_color": "blue",
-  "background_color": "rgba(1.0, 0, 0, 0.2)"
+  "background_color": "rgba(244, 0, 0, 0.2)"
 }
