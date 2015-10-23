@@ -1,0 +1,6 @@
+{
+  "name": "foo",
+  "display": "standalone",
+  "theme_color": "blue",
+  "background_color": "rgba(1.0, 0, 0, 0.2)"
+}
