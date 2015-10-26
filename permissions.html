@@ -25,7 +25,7 @@
     navigator.serviceWorker.register('/sandbox/sw-focus.js', {
       scope: '/sandbox/'
     }).then(function(reg) {
-      return reg.pushManager.subscribe();
+      return reg.pushManager.subscribe({userVisibleOnly: true});
     }).then(function(reg) {
       console.log('push reg', reg);
     });
