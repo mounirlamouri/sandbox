@@ -15,7 +15,7 @@
     navigator.permissions.request({name:'geolocation'});
   };
   buttons[1].onclick = function() {
-    navigator.permissions.request([{name:'geolocation'}, {name:'notifications'}]);
+    navigator.permissions.requestAll([{name:'geolocation'}, {name:'notifications'}]);
   };
 </script>
 </htmL>
