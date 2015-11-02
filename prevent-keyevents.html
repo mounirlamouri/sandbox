@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div>Test page to test key events being blocked by the page using Event.preventDefault(). Make sure the page has focus then press a few keys and observe behaviour (KeyEvents are reported in the terminal).</div>
+</body>
+<script>
+function keyEventHandler(e) {
+  console.log(e);
+  e.preventDefault();
+}
+document.body.addEventListener('keydown', keyEventHandler);
+</script>
+</html>
