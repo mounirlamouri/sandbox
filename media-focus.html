@@ -30,7 +30,7 @@
   </section>
   
   
-  <button onclick="function() { document.getElementById('html5-video').webkitShowPlaybackTargetPicker(); };">picker</button>
+  <button onclick="function() { var v = document.getElementById('html5-video'); v.removeAttribute('x-webkit-wirelessvideoplaybackdisabled'); v.webkitShowPlaybackTargetPicker(); };">force picker</button>
 
   <section>
     <h2>Youtube (iframes)</h2>
