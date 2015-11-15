@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Media Session Test page</title>
+</head>
+<body>
+</body>
+<script>
+  var session = new MediaSession();
+  session.activate().then(function() {
+    console.log('activated!');
+  });
+</script>
+</html>
