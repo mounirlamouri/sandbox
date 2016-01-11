@@ -12,6 +12,7 @@
       <source src="media/tetris.mp3" type='audio/mp3'>
       <source src="media/tetris.ogg" type='audio/ogg; codecs=vorbis'>
     </audio>
+    <button onclick="delayedPlayback();">delayed playback</button>
     <h3>Pacmac</h3>
     <audio id=pacman controls>
       <source src="media/pacman_beginning.mp3" type='audio/mp3'>
@@ -29,8 +30,6 @@
     </video>
   </section>
   
-  <button onclick=runPicker>run picker</button>
-
   <section>
     <h2>Youtube (iframes)</h2>
     <iframe id="ytplayer" type="text/html" width='300' height='200'
@@ -39,13 +38,10 @@
   </section>
 </body>
 <script>
-  function runPicker() {
-    alert('foo');
-    try {
-    var v = document.getElementById('html5-video');
-    v.removeAttribute('x-webkit-wirelessvideoplaybackdisabled');
-    v.webkitShowPlaybackTargetPicker();
-    } catch(e) { alert(e); }
+  function delayedPlayback() {
+    setTimeout(function() {
+      document.querySelector('audio').play();
+    }, 2000);
   }
 </script>
 </html>
