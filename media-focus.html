@@ -39,6 +39,8 @@
 </body>
 <script>
   function delayedPlayback() {
+    var audio = document.querySelector('audio');
+    audio.play(); audio.pause();
     setTimeout(function() {
       document.querySelector('audio').play();
     }, 2000);
