@@ -4,6 +4,16 @@
   <title>Permission Embedder</title>
 </head>
 <body>
-  <iframe src='geolocation-request.html'></iframe>
+  <button id=geolocation>Geolocation</button>
+  <button id=blank>about:blank</button>
+  <iframe></iframe>
 </body>
+<script>
+  document.querySelector('#geolocation').onclick = function() {
+    document.querySelector('iframe').src = 'geolocation-request.html';
+  };
+  document.querySelector('#blank').onclick = function() {
+    document.querySelector('iframe').src = 'about:blank';
+  };
+</script>
 </html>
