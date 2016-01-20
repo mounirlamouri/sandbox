@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Geolocation request</title>
+</head>
+<body>
+  <button>Request geolocation</button>
+</body>
+<script>
+  document.querySelector('button').onclick = function() {
+    navigator.geolocation.getCurrentPosition(function() {});
+  };
+</script>
+</html>
