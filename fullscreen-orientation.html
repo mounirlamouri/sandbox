@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <body>
-<video src='media/BigBuck.webm'>
+<video src='media/BigBuck.webm' controls>
 <script>
-window.screen.orientation.onorientationchange = function() {
-  if (this.type.startsWith('landscape-')) {
+window.screen.orientation.onchange = function() {
+  if (this.type.startsWith('landscape')) {
     document.body.webkitRequestFullscreen();
   }
 };
