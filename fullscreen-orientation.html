@@ -6,6 +6,8 @@
 window.screen.orientation.onchange = function() {
   if (this.type.startsWith('landscape')) {
     document.body.webkitRequestFullscreen();
+  } else {
+    document.webkitExitFullscreen();
   }
 };
 </script>
