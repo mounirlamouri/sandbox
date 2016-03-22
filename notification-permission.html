@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+</body>
+<script>
+function getNotificationPermission(callback) {
+  if ('permissions' in navigator) {
+    navigator.permissions.query({name:'notifications'}).then(function(p) {
+      callback(p.state);
+    });
+    return;
+  }
+
+  setTimeout(function() {
+    var status = Notification.permission;
+    if (status == 'default')
+      status = 'prompt';
+    callback(status);
+  }, 0);
+}
+
+getNotificationPermission(function(state) {
+  var div = document.createElement('div');
+  div.innerHTML = state;
+  document.body.appendChild(div);
+});
+</script>
+</html>
