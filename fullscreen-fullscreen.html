@@ -5,12 +5,14 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body style='margin:0;'>
-  <video src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls style='width:100%; height:100%;'></video>
+  <div id='container'>
+    <video src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls style='width:100%; height:100%;'></video>
+  </div>
   <button>Fullscreen</button>
 </body>
 <script>
 document.querySelector('button').onclick = function() {
-  document.body.webkitRequestFullscreen();
+  document.querySelector('#container').webkitRequestFullscreen();
 }
 </script>
 </html>
