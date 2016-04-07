@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Web Audio autoplay demo</title>
+</head>
+<body>
+</body>
+<script>
+var context = new AudioContext();
+var oscillator = context.createOscillator();
+var gainNode = context.createGain();
+
+oscillator.connect(gainNode);
+gainNode.connect(context.destination);
+gainNode.gain.value = 0.3;
+oscillator.start();
+</script>
+</html>
