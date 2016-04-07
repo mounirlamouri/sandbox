@@ -6,7 +6,6 @@
 <script>
 function start() {
   try {
-    
     var context = null;
     if ('AudioContext' in window)
       context = new AudioContext();
@@ -14,7 +13,12 @@ function start() {
       context = new webkitAudioContext();
       
     var oscillator = context.createOscillator();
-    var gainNode = context.createGain();
+    
+    var gainNode = null;
+    if ('createGain' in context)
+      gainNode = context.createGain();
+    else ('createGainNode' in context)
+      gainNode = context.createGainNode();
     
     oscillator.connect(gainNode);
     gainNode.connect(context.destination);
