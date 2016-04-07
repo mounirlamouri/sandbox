@@ -4,16 +4,24 @@
   <title>Web Audio autoplay demo</title>
 </head>
 <script>
-var context = new AudioContext();
-var oscillator = context.createOscillator();
-var gainNode = context.createGain();
-
-oscillator.connect(gainNode);
-gainNode.connect(context.destination);
-gainNode.gain.value = 0.3;
-oscillator.start();
+function start() {
+  try {
+    var context = new AudioContext();
+    var oscillator = context.createOscillator();
+    var gainNode = context.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    gainNode.gain.value = 0.3;
+    oscillator.start();
+  } catch(e) {
+    var d = document.createElement('div');
+    d.innerHTML = 'Failed to start: ' + e;
+    document.body.appendChild(d);
+  }
+}
 </script>
-<body>
-  <button onclick='oscillator.start();'>start</button>
+<body onload='start();'>
+  <button onclick='start();'>start</button>
 </body>
 </html>
