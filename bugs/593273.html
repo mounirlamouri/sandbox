@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>https://crbug.com/593273</title>
+</head>
+<body>
+<video src="../media/BigBuck.webm" controls></video>
+<script>
+var video = document.querySelector('video');
+
+function test() {
+  console.log("Run test while video with src= is playing"):
+  console.log('video.pause();';
+  video.pause();
+  console.log('video.removeAttribute(\'src\');';
+  video.removeAttribute('src');
+  console.log('video.load();';
+  video.load()
+  console.log('video.src = "../media/BigBuck.webm";';
+  video.src = "../media/BigBuck.webm";
+  console.log('video.play();';
+  video.play().then(function() {
+    conosle.log('play succeeded');
+  }, function() {
+    console.log('play failed');
+  });
+}
+
+video.play().then(function() {
+  setTimeout(test, 5000);
+});
+</script>
+</body>
+</html>
