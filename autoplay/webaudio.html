@@ -5,7 +5,15 @@
   <title>WebAudio autoplay</title>
 </head>
 <body>
+v3
 <script>
+// iOS debugging
+window.onerror = function(msg) {
+  var d = document.createElement('div');
+  d.innerHTML = msg;
+  document.body.appendChild(d);
+};
+
 function fetchFile(url) {
   return new Promise((resolve, reject) => {
     var request = new XMLHttpRequest();
