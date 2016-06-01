@@ -24,7 +24,13 @@ function playEncodedBuffer(encodedBuffer) {
     var source = context.createBufferSource();
     source.buffer = buffer;
     source.connect(context.destination);
-    source.start(0);
+    try {
+      source.start(0);
+    } catch (e) {
+      var d = document.createElement('div');
+      d.innerHTML = 'Failed to start with ' + e;
+      document.body.appendChild(d);
+    }
   });
 }
 
