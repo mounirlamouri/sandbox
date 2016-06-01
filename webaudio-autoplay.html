@@ -17,7 +17,7 @@ function start() {
     var gainNode = null;
     if ('createGain' in context)
       gainNode = context.createGain();
-    else ('createGainNode' in context)
+    else if ('createGainNode' in context)
       gainNode = context.createGainNode();
     
     oscillator.connect(gainNode);
