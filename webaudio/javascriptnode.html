@@ -8,7 +8,7 @@ window.onerror = function(e) {
   console.log(e);
 };
 
-var ac = new AudioContext();
+var ac = new webkitAudioContext();
 var sp = ac.createJavaScriptNode(2048, 1, 1);
 var source = ac.createBufferSource();
 source.connect(sp);
