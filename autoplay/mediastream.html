@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test page for autoplay workaround</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+</body>
+<script>
+  var v = document.createElement('video');
+  var context = new AudioContext();
+  var stream = a.createMediaStreamDestination().stream;
+  v.srcObject = stream;
+  v.src = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
+  document.body.appendChild(v);
+  v.play();
+</script>
+</html>
