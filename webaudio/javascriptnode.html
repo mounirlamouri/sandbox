@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<head>
+<title>JavascriptNode></title>
+<body>
+</body>
+<script>
+var ac = new AudioContext();
+var sp = ac.createJavaScriptNode(2048, 1, 1);
+var source = ac.createBufferSource();
+source.connect(sp);
+sp.connect(ac.destination);
+sp.onaudioprocess = function(e) {
+  var b = e.outputBuffer.getChannelData(0);
+  for (var i = 0; i < b.length; i++) {
+    b[i] = 0.1 * (Math.random() * 2 - 1);
+  }
+}
+</script>
+</html>
