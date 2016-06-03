@@ -16,6 +16,7 @@
 
   // There is likely an event we can listen to.
   setTimeout(_ => {
+    v.srcObject = null;
     v.src = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
     v.play();
   }, 2000);
