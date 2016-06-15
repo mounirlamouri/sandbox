@@ -14,11 +14,11 @@
   v.srcObject = stream;
   document.body.appendChild(v);
 
-  // There is likely an event we can listen to.
+  // TODO: can we remove the setTimeout?
   setTimeout(_ => {
     v.srcObject = null;
     v.src = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
     v.play();
-  }, 2000);
+  });
 </script>
 </html>
