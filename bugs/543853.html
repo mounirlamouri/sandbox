@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>Test for bug 543853</title>
+<button>Start</button>
+<script>
+document.querySelector('button').onclick = function() {
+  var a = new Audio('../media/tetris.mp3');
+  a.load();
+  a.oncanplaythrough = function() {
+    console.log('oncanplaythrough');
+    a.currentTime = 0;
+    a.play();
+  }
+}
+</script>
