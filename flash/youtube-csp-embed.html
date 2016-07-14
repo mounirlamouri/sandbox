@@ -8,8 +8,10 @@
 <object width="425" height="350" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
   <embed width="425" height="350" type="application/x-shockwave-flash" src="https://www.youtube.com/v/cW44BpXpjYw" />
 </object>
+<span id='log'>
+</span>
 </body>
 <script>
-  document.body.innerText += document.querySelector('meta').getAttribute('content');
+  document.querySelector('#log').innerText += 'csp = ' + document.querySelector('meta').getAttribute('content');
 </script>
 </html>
