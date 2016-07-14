@@ -2,14 +2,14 @@
 <html>
 <head>
   <title>YouTube embed test page with CSP</title>
-  <meta http-equiv="Content-Security-Policy" content="object-src https://youtube.com/v/">
+  <meta http-equiv="Content-Security-Policy" content="object-src https://youtube.com/foo/">
 </head>
 <body>
 <object width="425" height="350" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
   <embed width="425" height="350" type="application/x-shockwave-flash" src="https://www.youtube.com/v/cW44BpXpjYw" />
 </object>
-<span id='log'>
-</span>
+<div id='log'>
+</div>
 </body>
 <script>
   document.querySelector('#log').innerText += 'csp = ' + document.querySelector('meta').getAttribute('content');
