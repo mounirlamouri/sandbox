@@ -22,5 +22,7 @@
 </body>
 <script>
   document.querySelector('#log').innerText += 'csp = ' + document.querySelector('meta').getAttribute('content');
+  document.querySelectorAll('object').forEach(function(e) { e.onerror = function() { console.log ('error in ' + e); } });
+  document.querySelectorAll('embed').forEach(function(e) { e.onerror = function() { console.log ('error in ' + e); } });
 </script>
 </html>
