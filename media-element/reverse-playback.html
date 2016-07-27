@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+  <title>Negative playbackrate</title>
+</head>
+<video src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<script>
+  var v = document.querySelector('video');
+  v.fastSeek(100);
+  setTimeout(function() {
+    v.playbackRate = -1;
+    v.play();
+  }, 1000);
+</script>
