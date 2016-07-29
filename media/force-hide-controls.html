@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<title>Force hide controls test page</title>
+<video src=BigBuck.webm autoplay muted loop></video>
+<script>
+  function hideControls() {
+    this.controls = false;
+  }
+  
+  var v = document.querySelector('video');
+  v.onpause = hideControls;
+  v.onseek = hideControls;
+  v.onplaying = hideControls;
+</script>
