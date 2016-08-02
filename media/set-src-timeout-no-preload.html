@@ -2,6 +2,7 @@
 <title>Test playback after setting src on a video with preoload='none'</title>
 <video controls preload='none'></video>
 <script>
+  var v = document.querySelector('video');
   var p = v.play();
   if (p) {
     p.then(function() {
