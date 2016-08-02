@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>Test playback after setting src on a video with preoload='none'</title>
+<video controls preload='none'></video>
+<script>
+  var p = v.play();
+  if (p) {
+    p.then(function() {
+      console.log('play succeeded');
+    }, function(e) {
+      console.log('play failed: ' + e);
+    });
+  }
+  
+  setTimeout(function() {
+    v.src = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
+  }, 0);
+</script>
