@@ -20,14 +20,10 @@
   var video = document.querySelector('video');
   var captions = document.querySelectorAll('track');
   function addCaptions() {
-    captions.forEach(function(c) {
-      video.appendChild(c);
-    });
+    captions.forEach(c => video.appendChild(c));
   }
-  function removeCoptions() {
-    captions.forEach(function(c) {
-      video.removeChild(c);
-    });
+  function removeCaptions() {
+    while (video.firstChild) { video.removeChild(video.firstChild); }
   }
 
   document.getElementById('width').onchange = function() { video.width = this.value; };
