@@ -14,6 +14,7 @@
     <div><label>Width: <input type=number id=width value=400></label></div>
     <div><label>Controls: <input type=checkbox checked id=controls></label></div>
     <div><label>Captions: <input type=checkbox checked id=captions></label></div>
+    <div><label>Disable cast: <input type=checkbox id=disableCast></label></div>
   </fieldset>
 </body>
 <script>
@@ -29,5 +30,6 @@
   document.getElementById('width').onchange = function() { video.width = this.value; };
   document.getElementById('controls').onchange = function() { video.controls = this.checked; };
   document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
+  document.getElementById('disableCast').onchange = function() { video.disableRemotePlayback = this.checked; };
 </script>
 </html>
