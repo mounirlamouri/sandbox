@@ -9,15 +9,29 @@
     <track kind=subtitles src=test-sub-en.vtt srclang=en label=English>
     <track kind=subtitles src=test-sub-fr.vtt srclang=fr label=French>
   </video>
-  <frameset>
+  <fieldset>
     <legend>Options</legend>
     <div><label>Width: <input type=number id=width value=400></label></div>
     <div><label>Controls: <input type=checkbox checked id=controls></label></div>
-  </frameset>
+    <div><label>Captions: <input type=checkbox checked id=captions></label></div>
+  </fieldset>
 </body>
 <script>
   var video = document.querySelector('video');
+  var captions = document.querySelectorAll('track');
+  function addCaptions() {
+    captions.forEach(function(c) {
+      video.appendChild(c);
+    });
+  }
+  function removeCoptions() {
+    captions.forEach(function(c) {
+      video.removeChild(c);
+    });
+  }
+
   document.getElementById('width').onchange = function() { video.width = this.value; };
   document.getElementById('controls').onchange = function() { video.controls = this.checked; };
+  document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
 </script>
 </html>
