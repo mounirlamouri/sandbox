@@ -9,16 +9,16 @@
     <track kind=subtitles src=test-sub-en.vtt srclang=en label=English>
     <track kind=subtitles src=test-sub-fr.vtt srclang=fr label=French>
   </video>
-  <div>
-    <span><label>Width: <input type=number id=width></label></span>
-  </div>
+  <frameset>
+    <legend>Options</legend>
+    <div><label>Width: <input type=number id=width value=400></label></div>
+    <div><label>Controls: <input type=checkbox checked id=controls></label></div>
+  </frameset>
 </body>
 <script>
   var video = document.querySelector('video');
-  var wInput = document.getElementById('width');
-  wInput.value = video.width;
-  wInput.onchange = function() {
-    video.width = this.value;
-  }
+  document.getElementById('width').onchange = function() { video.width = this.value; }
+  document.getElementById('controls').onchange = function() { video.controls = this.checked; };
+  controlsSwitch.
 </script>
 </html>
