@@ -11,6 +11,7 @@
   </video>
   <fieldset>
     <legend>Options</legend>
+    <div><label>Video <input type=radio name=mediatype checked></label> <label>Audio <input type=radio name=mediatype></label></div>
     <div><label>Width: <input type=number id=width value=400></label></div>
     <div><label>Controls: <input type=checkbox checked id=controls></label></div>
     <div><label>Captions: <input type=checkbox checked id=captions></label></div>
@@ -18,18 +19,23 @@
   </fieldset>
 </body>
 <script>
-  var video = document.querySelector('video');
+  var media = document.querySelector('video');
   var captions = document.querySelectorAll('track');
   function addCaptions() {
-    captions.forEach(c => video.appendChild(c));
+    captions.forEach(c => media.appendChild(c));
   }
   function removeCaptions() {
-    while (video.firstChild) { video.removeChild(video.firstChild); }
+    while (media.firstChild) { media.removeChild(media.firstChild); }
   }
 
-  document.getElementById('width').onchange = function() { video.width = this.value; };
-  document.getElementById('controls').onchange = function() { video.controls = this.checked; };
+  document.querySelector('input[type=radio]').onchange = function() {
+    media.style.display = 'none';
+    media = document.querySelector(this.checked ? 'video' : 'audio');
+    media.style.display = 'block';
+  };
+  document.getElementById('width').onchange = function() { media.width = this.value; };
+  document.getElementById('controls').onchange = function() { media.controls = this.checked; };
   document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
-  document.getElementById('disableCast').onchange = function() { video.disableRemotePlayback = this.checked; };
+  document.getElementById('disableCast').onchange = function() { media.disableRemotePlayback = this.checked; };
 </script>
 </html>
