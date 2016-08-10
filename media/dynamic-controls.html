@@ -29,11 +29,13 @@
     while (media.firstChild) { media.removeChild(media.firstChild); }
   }
 
-  document.querySelector('input[type=radio]').onchange = function() {
-    console.log(this.value);
-    media.style.display = 'none';
-    media = document.querySelector(this.value);
-    media.style.display = 'block';
+  var radios = document.querySelectorAll('input[type=radio]');
+  for (var i = 0; i < radios.length; ++i) {
+    radios[i].onchange = function() {
+      media.style.display = 'none';
+      media = document.querySelector(this.value);
+      media.style.display = 'block';
+    }
   };
   document.getElementById('width').onchange = function() { media.width = this.value; };
   document.getElementById('controls').onchange = function() { media.controls = this.checked; };
