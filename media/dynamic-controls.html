@@ -20,26 +20,30 @@
   </fieldset>
 </body>
 <script>
-  var media = document.querySelector('video');
+  var audio = document.querySelector('audio');
+  var video = document.querySelector('video');
+  var currentMedia = video;
+  
   var captions = document.querySelectorAll('track');
   function addCaptions() {
-    captions.forEach(c => media.appendChild(c));
+    captions.forEach(c => video.appendChild(c));
   }
   function removeCaptions() {
-    while (media.firstChild) { media.removeChild(media.firstChild); }
+    while (video.firstChild) { video.removeChild(video.firstChild); }
   }
 
   var radios = document.querySelectorAll('input[type=radio]');
   for (var i = 0; i < radios.length; ++i) {
     radios[i].onchange = function() {
-      media.style.display = 'none';
-      media = document.querySelector(this.value);
-      media.style.display = 'block';
+      currentMedia.style.display = 'none';
+      currentMedia = document.querySelector(this.value);
+      currentMedia.style.display = 'block';
     }
   };
-  document.getElementById('width').onchange = function() { media.width = this.value; };
-  document.getElementById('controls').onchange = function() { media.controls = this.checked; };
+
+  document.getElementById('width').onchange = function() { audio.width = video.width = this.value; };
+  document.getElementById('controls').onchange = function() { audio.controls = video.controls = this.checked; };
   document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
-  document.getElementById('disableCast').onchange = function() { media.disableRemotePlayback = this.checked; };
+  document.getElementById('disableCast').onchange = function() { audio.disableRemotePlayback = video.disableRemotePlayback = this.checked; };
 </script>
 </html>
