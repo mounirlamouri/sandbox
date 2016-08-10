@@ -30,6 +30,7 @@
   }
 
   document.querySelector('input[type=radio]').onchange = function() {
+    console.log(this.value);
     media.style.display = 'none';
     media = document.querySelector(this.value);
     media.style.display = 'block';
