@@ -39,7 +39,7 @@
       currentMedia = document.querySelector(this.value);
       currentMedia.style.display = 'block';
       
-      document.querySelector('captions').disabled = (this.value == 'audio');
+      document.getElementById('captions').disabled = (this.value == 'audio');
     }
   };
 
