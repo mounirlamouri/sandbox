@@ -41,7 +41,7 @@
     }
   };
 
-  document.getElementById('width').onchange = function() { audio.width = video.width = this.value; };
+  document.getElementById('width').onchange = function() { audio.style.width = video.style.width = this.value + 'px'; };
   document.getElementById('controls').onchange = function() { audio.controls = video.controls = this.checked; };
   document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
   document.getElementById('disableCast').onchange = function() { audio.disableRemotePlayback = video.disableRemotePlayback = this.checked; };
