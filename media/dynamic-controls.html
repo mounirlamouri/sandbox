@@ -12,7 +12,7 @@
   <audio src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls width=400 style='display: none;'></audio>
   <fieldset>
     <legend>Options</legend>
-    <div><label>Video <input type=radio name=mediatype checked></label> <label>Audio <input type=radio name=mediatype></label></div>
+    <div><label>Video <input type=radio name=mediatype value=video checked></label> <label>Audio <input type=radio name=mediatype value=audio></label></div>
     <div><label>Width: <input type=number id=width value=400></label></div>
     <div><label>Controls: <input type=checkbox checked id=controls></label></div>
     <div><label>Captions: <input type=checkbox checked id=captions></label></div>
@@ -31,7 +31,7 @@
 
   document.querySelector('input[type=radio]').onchange = function() {
     media.style.display = 'none';
-    media = document.querySelector(this.checked ? 'video' : 'audio');
+    media = document.querySelector(this.value);
     media.style.display = 'block';
   };
   document.getElementById('width').onchange = function() { media.width = this.value; };
