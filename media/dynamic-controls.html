@@ -15,8 +15,8 @@
     <div><label>Video <input type=radio name=mediatype value=video checked></label> <label>Audio <input type=radio name=mediatype value=audio></label></div>
     <div><label>Width: <input type=number id=width value=400></label></div>
     <div><label>Controls: <input type=checkbox checked id=controls></label></div>
-    <div><label>Captions: <input type=checkbox checked id=captions></label></div>
     <div><label>Disable cast: <input type=checkbox id=disableCast></label></div>
+    <div><label>Captions: <input type=checkbox checked id=captions></label></div>
   </fieldset>
 </body>
 <script>
@@ -38,6 +38,8 @@
       currentMedia.style.display = 'none';
       currentMedia = document.querySelector(this.value);
       currentMedia.style.display = 'block';
+      
+      document.querySelector('captions').disabled = (this.value == 'audio');
     }
   };
 
