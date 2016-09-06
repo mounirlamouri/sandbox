@@ -45,11 +45,13 @@ window.parent.postMessage({ msg: 'afterOscillator', value: audioContext.state },
 var otherAudioContext = createAudioContext();
 
 synthesizeClick(function() {
+  /*
   resumePromise.then(function() {
     window.parent.postMessage({ msg: 'stateAfterClick',
                                 value: audioContext.state }, '*');
     window.parent.postMessage({ msg: 'done' }, '*');
   });
+  */
 
   var oscillator = audioContext.createOscillator();
   oscillator.type = 'square';
