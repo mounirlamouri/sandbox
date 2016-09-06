@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<body></body>
+<script>
+function synthesizeClick(callback) {
+  var button = document.createElement('input');
+  button.type = 'button';
+  button.value = 'click me';
+  button.onclick = callback;
+  document.body.appendChild(button);
+
+  if ('eventSender' in window) {
+    var boundingRect = button.getBoundingClientRect();
+    var x = boundingRect.left + boundingRect.width / 2;
+    var y = boundingRect.top + boundingRect.height / 2;
+
+    eventSender.mouseMoveTo(x, y);
+    eventSender.mouseDown();
+    eventSender.mouseUp();
+  }
+  // else, the user should manually click.
+}
+
+var audioContext = new AudioContext();
+window.parent.postMessage({ msg: 'initialState', value: audioContext.state },
+                          '*');
+
+var resumePromise = audioContext.resume();
+window.parent.postMessage({ msg: 'afterResume', value: audioContext.state },
+                          '*');
+
+var oscillator = audioContext.createOscillator();
+oscillator.type = 'square';
+oscillator.frequency.value = 2000;
+oscillator.connect(audioContext.destination);
+oscillator.start();
+window.parent.postMessage({ msg: 'afterOscillator', value: audioContext.state },
+                          '*');
+
+var otherAudioContext = new AudioContext();
+
+synthesizeClick(_ => {
+  resumePromise.then(_ => {
+    window.parent.postMessage({ msg: 'stateAfterClick',
+                                value: audioContext.state }, '*');
+    window.parent.postMessage({ msg: 'done' }, '*');
+  });
+
+  var oscillator = audioContext.createOscillator();
+  oscillator.type = 'square';
+  oscillator.frequency.value = 2000;
+  oscillator.connect(audioContext.destination);
+  oscillator.start();
+});
+</script>
