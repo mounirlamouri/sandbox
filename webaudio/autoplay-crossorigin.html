@@ -2,7 +2,7 @@
 <title>Web Audio autoplay cross origin</title>
 <body></body>
 <script>
-  window.addEventListener('message', e => {
+  window.addEventListener('message', function(e) {
     switch (e.data.msg) {
       case 'initialState':
       case 'afterResume':
