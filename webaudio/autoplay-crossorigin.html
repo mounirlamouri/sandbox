@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<title>Web Audio autoplay cross origin</title>
+<body></body>
+<script>
+  // Not actually cross origin.
+  var f = document.createElement('iframe');
+  f.src = 'autoplay-crossorigin-iframe.html';
+  document.body.appendChild(f);
+</script>
