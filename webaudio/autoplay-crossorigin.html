@@ -2,6 +2,23 @@
 <title>Web Audio autoplay cross origin</title>
 <body></body>
 <script>
+  window.addEventListener('message', e => {
+    switch (e.data.msg) {
+      case 'initialState':
+      case 'afterResume':
+      case 'afterOscillator':
+        console.log(e.data.msg + ': ' + e.data.value);
+        break;
+      case 'stateAfterClick':
+        console.log(e.data.msg + ': ' + e.data.value);
+        break;
+      case 'done':
+        console.log('done');
+      default:
+        assert_unreached();
+    }
+  });
+
   // Not actually cross origin.
   var f = document.createElement('iframe');
   f.src = 'autoplay-crossorigin-iframe.html';
