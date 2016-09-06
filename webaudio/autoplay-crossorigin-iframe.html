@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <body></body>
 <script>
+function createAudioContext() {
+  if ('AudioContext' in window)
+    return new AudioContext();
+  return new webkitAudioContext();
+}
+
 function synthesizeClick(callback) {
   var button = document.createElement('input');
   button.type = 'button';
@@ -20,7 +26,7 @@ function synthesizeClick(callback) {
   // else, the user should manually click.
 }
 
-var audioContext = new AudioContext();
+var audioContext = createAudioContext();
 window.parent.postMessage({ msg: 'initialState', value: audioContext.state },
                           '*');
 
@@ -36,7 +42,7 @@ oscillator.start();
 window.parent.postMessage({ msg: 'afterOscillator', value: audioContext.state },
                           '*');
 
-var otherAudioContext = new AudioContext();
+var otherAudioContext = createAudioContext();
 
 synthesizeClick(_ => {
   resumePromise.then(_ => {
