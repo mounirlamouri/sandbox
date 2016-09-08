@@ -8,6 +8,7 @@
   <button id=play>Play</button><button id=pause>Pause</button><button id=cast>Cast</button>
 </html>
 <script>
+var video = document.querySelector('video');
 var play = document.getElementById('play');
 var pause = document.getElementById('pause');
 var cast = document.getElementById('cast');
@@ -15,12 +16,12 @@ var cast = document.getElementById('cast');
 play.onclick = () => play.play();
 pause.onclick = () => pause.pause();
 cast.onclick = () => {
-  remote.connect().then(success => {
+  video.remote.connect().then(success => {
     console.log('success: ' + success);
   });
 };
 
-cast.getAvailability().then(availability => {
+video.remote.getAvailability().then(availability => {
   availability.onchange = () => {
     console.log('available ? ' + this.value);
   };
