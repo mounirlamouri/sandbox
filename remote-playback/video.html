@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+  <title>Remote Playback Video Demo</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<html>
+  <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 width=400></video>
+  <button id=play>Play</button><button id=pause>Pause</button><button id=cast>Cast</button>
+</html>
+<script>
+var play = document.getElementById('play');
+var pause = document.getElementById('pause');
+var cast = document.getElementById('cast');
+
+play.onclick = () => play.play();
+pause.onclick = () => pause.pause();
+cast.onclick = () => {
+  remote.connect().then(success => {
+    console.log('success: ' + success);
+  });
+};
+
+cast.getAvailability().then(availability => {
+  availability.onchange = () => {
+    console.log('available ? ' + this.value);
+  };
+  console.log('available ? ' + this.value);
+});
+</script>
