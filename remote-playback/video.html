@@ -13,8 +13,8 @@ var play = document.getElementById('play');
 var pause = document.getElementById('pause');
 var cast = document.getElementById('cast');
 
-play.onclick = () => play.play();
-pause.onclick = () => pause.pause();
+play.onclick = () => video.play();
+pause.onclick = () => video.pause();
 cast.onclick = () => {
   video.remote.connect().then(success => {
     console.log('success: ' + success);
