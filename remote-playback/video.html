@@ -23,8 +23,14 @@ cast.onclick = () => {
 
 video.remote.getAvailability().then(availability => {
   availability.onchange = () => {
-    console.log('available ? ' + this.value);
+    if (this.value)
+      cast.hidden = false;
+    else
+      cast.hidden = true;
   };
-  console.log('available ? ' + this.value);
+  if (this.value)
+    cast.hidden = false;
+  else
+    cast.hidden = true;
 });
 </script>
