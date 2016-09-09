@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+  <title>Remote Playback Video Demo</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<html>
+  <audio src='../media/tetris.mp3' width=400></video>
+  <button id=play>Play</button><button id=pause>Pause</button><button id=cast>Cast</button>
+</html>
+<script>
+var video = document.querySelector('video');
+var play = document.getElementById('play');
+var pause = document.getElementById('pause');
+var cast = document.getElementById('cast');
+
+play.onclick = () => video.play();
+pause.onclick = () => video.pause();
+cast.onclick = () => {
+  video.remote.connect().then(success => {
+    console.log('success: ' + success);
+  });
+};
+
+/*
+video.remote.getAvailability().then(availability => {
+  availability.onchange = () => {
+    if (this.value)
+      cast.hidden = false;
+    else
+      cast.hidden = true;
+  };
+  if (availability.value)
+    cast.hidden = false;
+  else
+    cast.hidden = true;
+  console.log(availability.value);
+});
+*/
+</script>
