@@ -8,7 +8,7 @@
 <body>
 <button onclick='gContext.resume();'>resume()</button>
 <button onclick='gContext.suspend();'>suspend()</button>
-v0.5.0
+v0.5.1
 <script>
 function createAudioContext() {
   if ('AudioContext' in window)
@@ -45,7 +45,9 @@ function playEncodedBuffer(encodedBuffer) {
 
 var URL = 'https://raw.githubusercontent.com/mounirlamouri/sandbox/gh-pages/media/tetris.mp3';
 var gContext = createAudioContext();
-fetchFile(URL).then(buffer => playEncodedBuffer(buffer));
+fetchFile(URL).then(function(buffer) {
+  playEncodedBuffer(buffer);
+});
 </script>
 </body>
 </html>
