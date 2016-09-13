@@ -8,15 +8,8 @@
 <body>
 <button onclick='gContext.resume();'>resume()</button>
 <button onclick='gContext.suspend();'>suspend()</button>
-v0.4.1
+v0.5.0
 <script>
-// iOS debugging
-window.onerror = function(msg) {
-  var d = document.createElement('div');
-  d.innerHTML = msg;
-  document.body.appendChild(d);
-};
-
 function createAudioContext() {
   if ('AudioContext' in window)
     return new AudioContext();
