@@ -35,7 +35,7 @@ window.parent.postMessage({ msg: 'afterResume', value: audioContext.state },
                           '*');
 
 var oscillator = audioContext.createOscillator();
-oscillator.type = 'square';
+oscillator.type = 'sine';
 oscillator.frequency.value = 2000;
 oscillator.connect(audioContext.destination);
 oscillator.start();
