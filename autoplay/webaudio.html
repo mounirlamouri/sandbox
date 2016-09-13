@@ -5,8 +5,9 @@
   <title>WebAudio autoplay</title>
 </head>
 <body>
-v0.4
-<button onclick='resume();'>resume()</button>
+<button onclick='gContext.resume();'>resume()</button>
+<button onclick='gContext.suspend();'>suspend()</button>
+v0.4.1
 <script>
 // iOS debugging
 window.onerror = function(msg) {
