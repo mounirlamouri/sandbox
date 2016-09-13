@@ -17,7 +17,7 @@ var ac = createAudioContext();
 var oscillator = audioContext.createOscillator();
 oscillator.type = 'sine';
 oscillator.frequency.value = 0;
-oscillator.connect(audioContext.destination);
+oscillator.connect(ac.destination);
 oscillator.start();
 
 setInterval(function() {
