@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Oscillator test</title>
+</head>
+<body>
+</body>
+<script>
+function createAudioContext() {
+  if ('AudioContext' in window)
+    return new AudioContext();
+  return new webkitAudioContext();
+}
+
+var ac = createAudioContext();
+
+var oscillator = audioContext.createOscillator();
+oscillator.type = 'sine';
+oscillator.frequency.value = 0;
+oscillator.connect(audioContext.destination);
+oscillator.start();
+
+setInterval(function() {
+  oscillator.frequency.value += 100;
+}, 1000);
+
+</script>
+</html>
