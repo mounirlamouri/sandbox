@@ -16,6 +16,7 @@ document.addEventListener('visibilitychange', () => {
     resumeWhenVisible = true;
   } else if (!document.hidden && resumeWhenVisible) {
     video.play();
+    resumeWhenVisible = false;
   }
 });
 </script>
