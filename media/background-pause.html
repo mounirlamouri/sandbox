@@ -11,9 +11,10 @@
 var resumeWhenVisible = false;
 document.addEventListener('visibilitychange', () => {
   var video = document.querySelector('video');
-  if (document.hidden && !video.paused) {
+  if (document.hidden) {
+    if (video.paused)
+      resumeWhenVisible = true;
     video.pause();
-    resumeWhenVisible = true;
   } else if (!document.hidden && resumeWhenVisible) {
     video.play();
     resumeWhenVisible = false;
