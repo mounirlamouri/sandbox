@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls>
+  <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls></video>
 </body>
 <script>
 var resumeWhenVisible = false;
 document.addEventListener('visibilitychange', () => {
   var video = document.querySelector('video');
-  if (document.hidden) {
+  if (!document.hidden) {
     if (video.paused)
       resumeWhenVisible = true;
     video.pause();
