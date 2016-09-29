@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>z-index hack</title>
+</head>
+<style>
+div.behind {
+  position: absolute;
+  top: 444px;
+  left: 30px;
+  height: 40px;
+  width: 100px;
+  background-color: yellow;
+  border: 1px solid red;
+}
+video::-webkit-media-controls-panel {
+  z-index: 1;
+}
+</style>
+<body>
+  <video src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div class=behind>i'm behind</div>
+</body>
+</html>
