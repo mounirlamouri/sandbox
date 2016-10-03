@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<div></div>
+<script>
+var ac = new AudioContext();
+var d = document.querySelector('div');
+d.innerText = 'Channels available: ' + ac.destination.maxChannelCount;
+</script>
