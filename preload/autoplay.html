@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Preload with autoplay attribute test page</title>
+</head>
+<body>
+<div>none</div>
+<video preload='none' autoplay src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>metadata</div>
+<video preload='metadata' autoplay src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>auto</div>
+<video preload='auto' autoplay src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>default</div>
+<video autoplay src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>invalid value</div>
+<video preload='foobar' autoplay src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+</body>
+</html>
