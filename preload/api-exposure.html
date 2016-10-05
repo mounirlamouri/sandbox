@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Preload API exposure</title>
+</head>
+<body>
+<div>none</div>
+<video preload='none' src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>metadata</div>
+<video preload='metadata' src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>auto</div>
+<video preload='auto' src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>default</div>
+<video src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>invalid value</div>
+<video preload='foobar' src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+</body>
+<script>
+var divs = document.querySelectorAll('div');
+var vids = document.querySelectorAll('video');
+
+for (var i = 0; i < vids.length; ++i) {
+  divs[i].innerHTML += ' exposed as ' + vids[i].preload;
+}
+</script>
+</html>
