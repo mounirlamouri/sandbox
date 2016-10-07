@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Preload with autoplay attribute test page</title>
+</head>
+<body>
+<div>Checks whether the file metadat are downloaded when using preload=metadata</div>
+<video preload='metadata' playsinline src='https://webkit.org/wp-content/uploads/forever.mp4' controls></video>
+<script>
+var video = document.querySelector('video');
+video.onloadedmetadata = function() {
+  document.body.innerHTML += "<div>onloadedmetadat</div>";
+};
+</script>
+</body>
+</html>
