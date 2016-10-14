@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Preload behvaiour when no attribute is set</title>
+</head>
+<body>
+<div>Checks fired events when preload is set to auto</div>
+<video playsinline src='https://webkit.org/wp-content/uploads/forever.mp4' controls></video>
+<script>
+var video = document.querySelector('video');
+video.onloadedmetadata = function() {
+  document.body.innerHTML += "<div>loadedmetadata</div>";
+};
+video.onloadeddata = function() {
+  document.body.innerHTML += "<div>loadeddata</div>";
+};
+video.oncanplay = function() {
+  document.body.innerHTML += "<div>canplay</div>";
+};
+video.oncanplaythrough = function() {
+  document.body.innerHTML += "<div>canplaythrough</div>";
+};
+</script>
+</body>
+</html>
