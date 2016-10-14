@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
+</body>
+<script>
+var v = document.querySelector('video');
+v.onseek = () => {
+  console.log('seek');
+};
+</script>
+</html>
