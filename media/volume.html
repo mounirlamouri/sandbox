@@ -8,12 +8,12 @@
 var audio = document.querySelector('audio');
 var up = document.querySelector('#up');
 var down = document.querySelector('#down');
-up.onclick = function() {
+up.addEventListener('click', function() {
   if (audio.volume == 1.0) return;
   audio.volume += 0.1;
-};
-down.onclick = function() {
+});
+down.addEventListener('click', function() {
   if (audio.volume == 0.0) return;
   audio.volume -= 0.1;
-};
+});
 </html>
