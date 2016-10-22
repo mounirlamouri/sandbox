@@ -8,11 +8,11 @@
 var audio = document.querySelector('audio');
 var up = document.querySelector('#up');
 var down = document.querySelector('#down');
-up.onclick = () => {
+up.onclick = function() {
   if (audio.volume == 1.0) return;
   audio.volume += 0.1;
 };
-down.onclick = () => {
+down.onclick = function() {
   if (audio.volume == 0.0) return;
   audio.volume -= 0.1;
 };
