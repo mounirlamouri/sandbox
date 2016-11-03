@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Autoplay muted simple test page</title>
+</head>
+<body>
+<video playsinline autoplay muted loop src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4>
+</video>
+<script>
+setTimeout(function() {
+  document.querySelector('video').muted = false;
+}, 10000);
+</script>
+</body>
+</html>
