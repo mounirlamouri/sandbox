@@ -4,8 +4,9 @@
 <title>Autoplay muted simple test page</title>
 </head>
 <body>
-<video playsinline autoplay muted loop src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4>
+<video playsinline autoplay muted controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4>
 </video>
+<div>Will unmute after 10 seconds</div>
 <script>
 setTimeout(function() {
   document.querySelector('video').muted = false;
