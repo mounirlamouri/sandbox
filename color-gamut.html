@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<div id=srgb></div>
+<div id=p3></div>
+<div id=rec2020></div>
+<script>
+['srgb', 'p3', 'rec2020'].forEarch(function(value) {
+  document.getElementById(value).innerHTML = window.matchMedia("(color-gamut: " + value + ")").matches;
+});
+</script>
