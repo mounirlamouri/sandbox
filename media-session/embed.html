@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<div>1.1</div>
+<div>1.2</div>
 <script>
+navigator.mediaSession.playbackState = 'playing';
+
 window.addEventListener('unload', function() {
   console.log('unload');
   navigator.mediaSession.playbackState = 'none';
