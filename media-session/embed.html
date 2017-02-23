@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <script>
-document.onunload = function() {
+window.addEventListener('unload', function() {
   console.log('unload');
   navigator.mediaSession.playbackState = 'none';
-}
+});
 </script>
