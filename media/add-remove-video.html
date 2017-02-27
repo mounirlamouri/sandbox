@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+ <title>add-remove-video.html</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<script>  
+  function add() {
+    var video = document.createElement('video');
+    video.controls = true;
+    video.width = 400;
+    video.scr = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
+    document.body.appendChild(video);
+    video = null;
+  }
+  
+  function remove() {
+    document.body = '';
+  }
+</script>
+<buttoon onclick='add();'>add</button><button onclick='remove();'>remove</button>
