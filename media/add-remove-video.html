@@ -3,10 +3,11 @@
  <title>add-remove-video.html</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+<body></body>
 <script>  
   function add() {
     var video = document.createElement('video');
-    video.controls = true;
+    //video.controls = true;
     video.width = 400;
     video.src = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
     document.body.appendChild(video);
@@ -14,7 +15,7 @@
   }
   
   function remove() {
-    document.body = '';
+    document.body.innerHTML = '';
   }
 </script>
 <button onclick='add();'>add</button><button onclick='remove();'>remove</button>
