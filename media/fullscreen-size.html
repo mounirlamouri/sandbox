@@ -11,6 +11,9 @@ function writeSize() {
   container.appendChild(inner);
   container.appendChild(outer);
   document.body.appendChild(container);
+  
+  if (window.innerHeight <= 200 && window.innerWidth <= 200)
+    document.webkitExitFullscreen();
 }
 setInterval(writeSize, 1000);
 </script>
