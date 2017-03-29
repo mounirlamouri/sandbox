@@ -19,12 +19,19 @@ function writeSize() {
     container.appendChild(pos);
     
     // % visibility
-    var full = new DOMRect(window.screenX, window.screenY, window.outerWidth, window.outerHeight);
-    var realCoord = { left: Math.max(full.x, 0),
-                    top: Math.max(full.y, 0),
-                    right: Math.min(full.x + full.width, window.screen.width),
-                    bottom: Math.min(full.y + full.height, window.screen.height) };
-    var real = new DOMRect(realCoord.left, realCoord.top, realCoord.right - realCoord.left, realCoord.bottom - realCoord.top);
+    var full = { x: window.screenX, y: window.screenY, width: window.outerWidth, height: window.outerHeight };
+    var realCoord = {
+      left: Math.max(full.x, 0),
+      top: Math.max(full.y, 0),
+      right: Math.min(full.x + full.width, window.screen.width),
+      bottom: Math.min(full.y + full.height, window.screen.height),
+    };
+    var real = {
+      x: realCoord.left,
+      y: realCoord.top,
+      width: realCoord.right - realCoord.left,
+      height: realCoord.bottom - realCoord.top,
+    };
     
     var fullSurface = full.width * full.height;
     var realSurface = real.width * real.height;
