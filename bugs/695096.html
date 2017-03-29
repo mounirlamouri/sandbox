@@ -5,6 +5,6 @@ var element = document.createElement('audio');
 element.onerror = function() {
   window.location = window.location;
 };
-element.src = '.?' + new Date().getTime();
+element.src = window.location.href + '?' + new Date().getTime();
 }());
 </script>
