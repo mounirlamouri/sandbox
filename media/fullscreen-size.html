@@ -17,6 +17,21 @@ function writeSize() {
     var pos = document.createElement('div');
     pos.innerHTML = "X: " + window.screenX + " Y: " + window.screenY;
     container.appendChild(pos);
+    
+    // % visibility
+    var full = new DOMRect(window.screenX, window.screenY, window.outerWidth, window.outerHeight);
+    var realCoord = { left: Math.max(full.x, 0),
+                    top: Math.max(full.y, 0),
+                    right: Math.min(full.x + full.width, window.screen.width),
+                    bottom: Math.min(full.y + full.height, window.screen.height) };
+    var real = new DOMRect(realCoord.left, realCoord.top, realCoord.left + realCoord.right, realCoord.top + realCoord.bottom);
+    
+    var fullSurface = full.width * full.height;
+    var realSurface = real.width * real.height;
+    var visibility = document.createElement('div');
+    visibility.innerHTML = 'full: ' + fullSurface + ' real: ' + realSurface + ' %: ' + (realSurface / fullSurface);
+    container.appendChild(visibility);
+    
     document.body.appendChild(container);
   }
   
