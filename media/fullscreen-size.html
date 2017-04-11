@@ -45,7 +45,7 @@ function onResize() {
     debugInfo();
   var minimumScreenSize = 0.33;
   var screenArea = screen.width * screen.height;
-  var windowArea = window.outerHeigh * window.outerWidth;
+  var windowArea = window.outerHeight * window.outerWidth;
   if ((windowArea / screenArea) < minimumScreenSize)
     document.webkitExitFullscreen();
   //if (window.innerHeight <= 200 && window.innerWidth <= 200)
