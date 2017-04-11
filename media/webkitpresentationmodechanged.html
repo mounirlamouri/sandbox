@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
+<script>
+var v = document.querySelector('video');
+v.addEventListener('webkitpresentationmodechanged', function() {
+  if (v.webkitPresentationMode != 'inline')
+    v.webkitSetPresentationMode('inline');
+});
+</script>
+</body>
+</html>
