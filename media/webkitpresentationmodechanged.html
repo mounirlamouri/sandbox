@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
 <script>
 var v = document.querySelector('video');
 v.addEventListener('webkitpresentationmodechanged', function() {
-  if (v.webkitPresentationMode != 'inline')
+  if (v.webkitPresentationMode == 'picture-in-picture')
     v.webkitSetPresentationMode('inline');
 });
 </script>
