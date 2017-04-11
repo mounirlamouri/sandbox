@@ -43,14 +43,19 @@ function debugInfo() {
 function onResize() {
   if (window.location.href.endsWith('verbose'))
     debugInfo();
-  if (window.innerHeight <= 200 && window.innerWidth <= 200)
+  var minimumScreenSize = 0.33;
+  var screenArea = screen.width * screen.height;
+  var windowArea = window.outerHeigh * window.outerWidth;
+  if ((windowArea / screenArea) < minimumScreenSize)
     document.webkitExitFullscreen();
+  //if (window.innerHeight <= 200 && window.innerWidth <= 200)
+  //  document.webkitExitFullscreen();
 }
 
 window.addEventListener('resize', onResize);
 </script>
 <body>
-3
+4
 <video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
 </body>
 </html>
