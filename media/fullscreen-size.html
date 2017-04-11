@@ -1,55 +1,56 @@
 <!doctype html>
 <html>
 <script>
-function writeSize() {
-  if (window.location.href.endsWith('verbose')) {
-    // size
-    var outer = document.createElement('div');
-    outer.innerHTML = "outerWidth: " + window.outerWidth + " outerHeight: " + window.outerHeight;
-    var inner = document.createElement('div');
-    inner.innerHTML = "innerWidth: " + window.innerWidth + " innerHeight: " + window.innerHeight;
-    var container = document.createElement('div');
-    container.appendChild(inner);
-    container.appendChild(outer);
-    
-    // position
-    var pos = document.createElement('div');
-    pos.innerHTML = "X: " + window.screenX + " Y: " + window.screenY;
-    container.appendChild(pos);
-    
-    // % visibility
-    var full = { x: window.screenX, y: window.screenY, width: window.outerWidth, height: window.outerHeight };
-    var realCoord = {
-      left: Math.max(full.x, 0),
-      top: Math.max(full.y, 0),
-      right: Math.min(full.x + full.width, window.screen.width),
-      bottom: Math.min(full.y + full.height, window.screen.height),
-    };
-    var real = {
-      x: realCoord.left,
-      y: realCoord.top,
-      width: realCoord.right - realCoord.left,
-      height: realCoord.bottom - realCoord.top,
-    };
-    
-    var fullSurface = full.width * full.height;
-    var realSurface = real.width * real.height;
-    var visibility = document.createElement('div');
-    visibility.innerHTML = 'full: ' + fullSurface + ' real: ' + realSurface + ' %: ' + (realSurface / fullSurface * 100);
-    container.appendChild(visibility);
-    
-    document.body.appendChild(container);
+function debugInfo() {
+  // size
+  var outer = document.createElement('div');
+  outer.innerHTML = "outerWidth: " + window.outerWidth + " outerHeight: " + window.outerHeight;
+  var inner = document.createElement('div');
+  inner.innerHTML = "innerWidth: " + window.innerWidth + " innerHeight: " + window.innerHeight;
+  var container = document.createElement('div');
+  container.appendChild(inner);
+  container.appendChild(outer);
+
+  // position
+  var pos = document.createElement('div');
+  pos.innerHTML = "X: " + window.screenX + " Y: " + window.screenY;
+  container.appendChild(pos);
+
+  // % visibility
+  var full = { x: window.screenX, y: window.screenY, width: window.outerWidth, height: window.outerHeight };
+  var realCoord = {
+    left: Math.max(full.x, 0),
+    top: Math.max(full.y, 0),
+    right: Math.min(full.x + full.width, window.screen.width),
+    bottom: Math.min(full.y + full.height, window.screen.height),
+  };
+  var real = {
+    x: realCoord.left,
+    y: realCoord.top,
+    width: realCoord.right - realCoord.left,
+    height: realCoord.bottom - realCoord.top,
+  };
+
+  var fullSurface = full.width * full.height;
+  var realSurface = real.width * real.height;
+  var visibility = document.createElement('div');
+  visibility.innerHTML = 'full: ' + fullSurface + ' real: ' + realSurface + ' %: ' + (realSurface / fullSurface * 100);
+  container.appendChild(visibility);
+
+  document.body.appendChild(container);
   }
-  
+
+function onResize() {
+  if (window.location.href.endsWith('verbose'))
+    debugInfo();
   if (window.innerHeight <= 200 && window.innerWidth <= 200)
     document.webkitExitFullscreen();
 }
-  
-window.addEventListener('resize', writeSize);
-//setInterval(writeSize, 1000);
+
+window.addEventListener('resize', onResize);
 </script>
 <body>
-1
+2
 <video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
 </body>
 </html>
