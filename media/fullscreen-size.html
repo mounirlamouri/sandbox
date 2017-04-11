@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-<video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
 <script>
 function writeSize() {
   if (window.location.href.endsWith('verbose')) {
@@ -45,8 +44,12 @@ function writeSize() {
   if (window.innerHeight <= 200 && window.innerWidth <= 200)
     document.webkitExitFullscreen();
 }
-setInterval(writeSize, 1000);
+  
+window.addEventListener('resize', writeSize);
+//setInterval(writeSize, 1000);
 </script>
 <body>
+1
+<video controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4></video>
 </body>
 </html>
