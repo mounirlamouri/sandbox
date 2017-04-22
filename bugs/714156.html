@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<!-- copy of the file attached in the original crbug -->
+  <head>
+		<meta charset="utf-8">
+		<title>Play Media on user touch</title>
+	</head>
+	<body>
+		<div id="play">Click me to play audio!</div>
+		<script type="text/javascript">
+			document.querySelector('#play').addEventListener('touchstart', function() {
+				new Audio('http://techslides.com/demos/samples/sample.mp3').play()
+			})
+		</script>
+	</body>
+</html>
