@@ -10,6 +10,15 @@
 
 const MEDIA_FILE = 'media/test-title-no-lang-no-handler.webm';
 
+// Check if we need to fallback to MP4.
+{
+  var video = document.createElement('video');
+  if (!video.canPlayType('video/webm; codecs=vp9') ||
+      !video.canPlayType('audio/webm; codecs=opus')) {
+    MEDIA_FILE = MEDIA_FILE.replace('.webm', '.mp4');
+  }
+}
+
 promise_test(t => {
   var video = document.createElement('video');
   const videoTracks = video.videoTracks;
