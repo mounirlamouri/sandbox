@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+  <title>HTMLMediaElement.videoTracks test for inband tracks (single track)</title>
+  <script src='resources/testharness.js'></script>
+  <script src='resources/testharnessreport.js'></script>
+</head>
+<script>
+// TODO: add '/' before resources
+// TODO: use w3c-wpt to get file
+
+const MEDIA_FILE = 'media/test-title-no-lang-no-handler.webm';
+
+promise_test(t => {
+  var video = document.createElement('video');
+  const videoTracks = video.videoTracks;
+  const eventWatcher = new EventWatcher(t, videoTracks, 'addtrack');
+  video.src = MEDIA_FILE;
+  return eventWatcher.wait_for('addtrack');
+}, 'Test that addtrack event is fired during load.');
+
+async_test(t => {
+  var video = document.createElement('video');
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func_done(e => {
+    const videoTracks = video.videoTracks;
+    assert_equals(videoTracks.length, 1);
+    assert_not_equals(videoTracks[0], null);
+    assert_equals(videoTracks[1], undefined);
+  }));
+}, 'Test that videoTracks has the right length after load.');
+
+async_test(t => {
+  var video = document.createElement('video');
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func_done(e => {
+    const videoTracks = video.videoTracks;
+    assert_equals(videoTracks.length, 1);
+    assert_equals(videoTracks.getTrackById(0), null);
+    assert_not_equals(videoTracks.getTrackById(videoTracks[0].id), null);
+  }));
+}, 'Test that videoTracks.getTrackById() uses track internal id.');
+
+async_test(t => {
+  var video = document.createElement('video');
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func_done(e => {
+    const videoTracks = video.videoTracks;
+    assert_equals(videoTracks[0].selected, true);
+    assert_equals(videoTracks.selectedIndex, 0);
+  }));
+}, 'Test that videoTracks.selectedIndex returns index of the track when only ' +
+   'one is available.');
+
+async_test(t => {
+  var video = document.createElement('video');
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func_done(e => {
+    const videoTracks = video.videoTracks;
+    videoTracks[0].selected = false;
+    assert_equals(videoTracks.selectedIndex, -1);
+  }));
+}, 'Test that videoTracks.selectedIndex returns -1 if no video tracks are ' +
+   'selected.');
+</script>

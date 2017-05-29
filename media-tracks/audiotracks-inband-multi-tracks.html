@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+  <title>HTMLMediaElement.audioTracks test for inband tracks (multi tracks)</title>
+  <script src='resources/testharness.js'></script>
+  <script src='resources/testharnessreport.js'></script>
+</head>
+<script>
+// TODO: add '/' before resources
+// TODO: use w3c-wpt to get file
+
+const MEDIA_FILE = 'media/test-title-no-lang-no-handler-multi-tracks.webm';
+
+promise_test(t => {
+  var audio = document.createElement('audio');
+  const audioTracks = audio.audioTracks;
+  const eventWatcher = new EventWatcher(t, audioTracks, 'addtrack');
+  audio.src = MEDIA_FILE;
+  return eventWatcher.wait_for([ 'addtrack', 'addtrack' ]);
+}, 'Test that addtrack events are fired during load.');
+
+promise_test(t => {
+  var audio = document.createElement('audio');
+  const audioTracks = audio.audioTracks;
+  const eventWatcher = new EventWatcher(t, audioTracks, 'change');
+  var promise = eventWatcher.wait_for('change');
+  audio.src = MEDIA_FILE;
+  audio.addEventListener('loadedmetadata', t.step_func(e => {
+    audioTracks[0].enabled = false;
+  }));
+  return promise;
+}, 'Test that a change event is fired when an audio track is disabled.');
+
+promise_test(t => {
+  var audio = document.createElement('audio');
+  const audioTracks = audio.audioTracks;
+  const eventWatcher = new EventWatcher(t, audioTracks, 'change');
+  var promise = eventWatcher.wait_for([ 'change', 'change' ]);
+  audio.src = MEDIA_FILE;
+  audio.addEventListener('loadedmetadata', t.step_func(e => {
+    audioTracks[0].enabled = false;
+    audioTracks[0].enabled = true;
+  }));
+  return promise;
+}, 'Test that a change event is fired when an audio track is re-enabled.');
+
+promise_test(t => {
+  var audio = document.createElement('audio');
+  const audioTracks = audio.audioTracks;
+  const eventWatcher = new EventWatcher(t, audioTracks, 'change');
+  var promise = eventWatcher.wait_for([ 'change', 'change', 'change',
+                                        'change' ]);
+  audio.src = MEDIA_FILE;
+  audio.addEventListener('loadedmetadata', t.step_func(e => {
+    audioTracks[0].enabled = false;
+    audioTracks[0].enabled = true;
+    audioTracks[1].enabled = false;
+    audioTracks[1].enabled = true;
+  }));
+  return promise;
+}, 'Test that change events are fired regardless of the audio track.');
+
+async_test(t => {
+  var audio = document.createElement('audio');
+  audio.src = MEDIA_FILE;
+  audio.addEventListener('loadedmetadata', t.step_func_done(e => {
+    const audioTracks = audio.audioTracks;
+    assert_equals(audioTracks.length, 2);
+    assert_not_equals(audioTracks[0], null);
+    assert_not_equals(audioTracks[1], null);
+    assert_equals(audioTracks[2], undefined);
+  }));
+}, 'Test that audioTracks has the right length after load.');
+
+async_test(t => {
+  var audio = document.createElement('audio');
+  audio.src = MEDIA_FILE;
+  audio.addEventListener('loadedmetadata', t.step_func_done(e => {
+    const audioTracks = audio.audioTracks;
+    assert_equals(audioTracks.length, 2);
+    assert_equals(audioTracks.getTrackById(0), null);
+    assert_equals(audioTracks.getTrackById(1), null);
+    assert_not_equals(audioTracks.getTrackById(audioTracks[0].id), null);
+    assert_not_equals(audioTracks.getTrackById(audioTracks[1].id), null);
+  }));
+}, 'Test that audioTracks.getTrackById() uses track internal id.');
+</script>
