@@ -27,6 +27,47 @@ promise_test(t => {
   return eventWatcher.wait_for([ 'addtrack', 'addtrack' ]);
 }, 'Test that addtrack events are fired during load.');
 
+promise_test(t => {
+  var video = document.createElement('video');
+  const videoTracks = video.videoTracks;
+  const eventWatcher = new EventWatcher(t, videoTracks, 'change');
+  var promise = eventWatcher.wait_for('change');
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func(e => {
+    videoTracks[0].selected = false;
+  }));
+  return promise;
+}, 'Test that a change event is fired when the video track is unselected.');
+
+promise_test(t => {
+  var video = document.createElement('video');
+  const videoTracks = video.videoTracks;
+  const eventWatcher = new EventWatcher(t, videoTracks, 'change');
+  var promise = eventWatcher.wait_for([ 'change', 'change' ]);
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func(e => {
+    videoTracks[0].selected = false;
+    videoTracks[0].selected = true;
+  }));
+  return promise;
+}, 'Test that a change event is fired when the video track is re-selected.');
+
+promise_test(t => {
+  var video = document.createElement('video');
+  const videoTracks = video.videoTracks;
+  const eventWatcher = new EventWatcher(t, videoTracks, 'change');
+  var promise = eventWatcher.wait_for([ 'change', 'change', 'change',
+                                        'change' ]);
+  video.src = MEDIA_FILE;
+  video.addEventListener('loadedmetadata', t.step_func(e => {
+    videoTracks[0].selected = false;
+    videoTracks[0].selected = true;
+    videoTracks[1].selected = true;
+    videoTracks[1].selected = false;
+  }));
+  return promise;
+}, 'Test that change events are fired regardless of the video track.');
+
 async_test(t => {
   var video = document.createElement('video');
   video.src = MEDIA_FILE;
