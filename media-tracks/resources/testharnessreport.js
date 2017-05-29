@@ -1,271 +1,420 @@
+/* global add_completion_callback */
+/* global setup */
+
 /*
- * THIS FILE INTENTIONALLY LEFT BLANK
- *
- * More specifically, this file is intended for vendors to implement
+ * This file is intended for vendors to implement
  * code needed to integrate testharness.js tests with their own test systems.
  *
- * Typically such integration will attach callbacks when each test is
- * has run, using add_result_callback(callback(test)), or when the whole test file has
- * completed, using add_completion_callback(callback(tests, harness_status)).
+ * The default implementation extracts metadata from the tests and validates
+ * it against the cached version that should be present in the test source
+ * file. If the cache is not found or is out of sync, source code suitable for
+ * caching the metadata is optionally generated.
+ *
+ * The cached metadata is present for extraction by test processing tools that
+ * are unable to execute javascript.
+ *
+ * Metadata is attached to tests via the properties parameter in the test
+ * constructor. See testharness.js for details.
+ *
+ * Typically test system integration will attach callbacks when each test has
+ * run, using add_result_callback(callback(test)), or when the whole test file
+ * has completed, using
+ * add_completion_callback(callback(tests, harness_status)).
  *
  * For more documentation about the callback functions and the
  * parameters they are called with see testharness.js
  */
 
-(function() {
+var metadata_generator = {
 
-    var output_document = document;
+    currentMetadata: {},
+    cachedMetadata: false,
+    metadataProperties: ['help', 'assert', 'author'],
 
-    // Setup for WebKit JavaScript tests
-    if (self.testRunner) {
-        testRunner.dumpAsText();
-        testRunner.waitUntilDone();
-        testRunner.setCanOpenWindows();
-        testRunner.setCloseRemainingWindowsWhenComplete(true);
-        testRunner.setDumpJavaScriptDialogs(false);
-    }
+    error: function(message) {
+        var messageElement = document.createElement('p');
+        messageElement.setAttribute('class', 'error');
+        this.appendText(messageElement, message);
 
-    // Disable the default output of testharness.js.  The default output formats
-    // test results into an HTML table.  When that table is dumped as text, no
-    // spacing between cells is preserved, and it is therefore not readable. By
-    // setting output to false, the HTML table will not be created.
-    // Also, disable timeout (except for explicit timeout), since the Blink
-    // layout test runner has its own timeout mechanism.
-    // See: https://github.com/w3c/testharness.js/blob/master/docs/api.md#setup
-    setup({
-        "output": false,
-        "explicit_timeout": true
-    });
-
-    // Function used to convert the test status code into the corresponding
-    // string
-    function convertResult(resultStatus) {
-        switch (resultStatus) {
-        case 0:
-            return "PASS";
-        case 1:
-            return "FAIL";
-        case 2:
-            return "TIMEOUT";
-        default:
-            return "NOTRUN";
+        var summary = document.getElementById('summary');
+        if (summary) {
+            summary.parentNode.insertBefore(messageElement, summary);
         }
-    }
-
-    var localPathRegExp;
-    if (document.URL.startsWith("file:///")) {
-        var index = document.URL.indexOf("/external/wpt");
-        if (index >= 0) {
-            var localPath = document.URL.substring("file:///".length, index + "/external/wpt".length);
-            localPathRegExp = new RegExp(localPath.replace(/(\W)/g, "\\$1"), "g");
+        else {
+            document.body.appendChild(messageElement);
         }
-    }
+    },
 
-    // Sanitizes the given text for display in test results.
-    function sanitize(text) {
-        if (!text) {
-            return "";
+    /**
+     * Ensure property value has contact information
+     */
+    validateContact: function(test, propertyName) {
+        var result = true;
+        var value = test.properties[propertyName];
+        var values = Array.isArray(value) ? value : [value];
+        for (var index = 0; index < values.length; index++) {
+            value = values[index];
+            var re = /(\S+)(\s*)<(.*)>(.*)/;
+            if (! re.test(value)) {
+                re = /(\S+)(\s+)(http[s]?:\/\/)(.*)/;
+                if (! re.test(value)) {
+                    this.error('Metadata property "' + propertyName +
+                        '" for test: "' + test.name +
+                        '" must have name and contact information ' +
+                        '("name <email>" or "name http(s)://")');
+                    result = false;
+                }
+            }
         }
-        // Escape null characters, otherwise diff will think the file is binary.
-        text = text.replace(/\0/g, "\\0");
-        // Escape carriage returns as they break rietveld's difftools.
-        text = text.replace(/\r/g, "\\r");
-        // Replace machine-dependent path with "...".
-        if (localPathRegExp)
-            text = text.replace(localPathRegExp, "...");
-        return text;
-    }
+        return result;
+    },
 
-    function isWPTManualTest() {
-        var path = location.pathname;
-        if (location.hostname == 'web-platform.test' && path.endsWith('-manual.html'))
-            return true;
-        return /\/external\/wpt\/.*-manual\.html$/.test(path);
-    }
-
-    // Returns a directory part relative to WPT root and a basename part of the
-    // current test. e.g.
-    // Current test: file:///.../LayoutTests/external/wpt/pointerevents/foobar.html
-    // Output: "/pointerevents/foobar"
-    function pathAndBaseNameInWPT() {
-        var path = location.pathname;
-        if (location.hostname == 'web-platform.test') {
-            var matches = path.match(/^(\/.*)\.html$/);
-            return matches ? matches[1] : null;
+    /**
+     * Extract metadata from test object
+     */
+    extractFromTest: function(test) {
+        var testMetadata = {};
+        // filter out metadata from other properties in test
+        for (var metaIndex = 0; metaIndex < this.metadataProperties.length;
+             metaIndex++) {
+            var meta = this.metadataProperties[metaIndex];
+            if (test.properties.hasOwnProperty(meta)) {
+                if ('author' == meta) {
+                    this.validateContact(test, meta);
+                }
+                testMetadata[meta] = test.properties[meta];
+            }
         }
-        var matches = path.match(/external\/wpt(\/.*)\.html$/);
-        return matches ? matches[1] : null;
-    }
+        return testMetadata;
+    },
 
-    function loadAutomationScript() {
-        var pathAndBase = pathAndBaseNameInWPT();
-        if (!pathAndBase)
-            return;
-        var automationPath = location.pathname.replace(/\/external\/wpt\/.*$/, '/external/wpt_automation');
-        if (location.hostname == 'web-platform.test')
-            automationPath = '/wpt_automation';
+    /**
+     * Compare cached metadata to extracted metadata
+     */
+    validateCache: function() {
+        for (var testName in this.currentMetadata) {
+            if (! this.cachedMetadata.hasOwnProperty(testName)) {
+                return false;
+            }
+            var testMetadata = this.currentMetadata[testName];
+            var cachedTestMetadata = this.cachedMetadata[testName];
+            delete this.cachedMetadata[testName];
 
-        // Export importAutomationScript for use by the automation scripts.
-        window.importAutomationScript = function(relativePath) {
-            var script = document.createElement('script');
-            script.src = automationPath + relativePath;
-            document.head.appendChild(script);
-        }
-
-        var src;
-        if (pathAndBase.startsWith('/fullscreen/')) {
-            // Fullscreen tests all use the same automation script.
-            src = automationPath + '/fullscreen/auto-click.js';
-        } else if (pathAndBase.startsWith('/pointerevents/')
-                   || pathAndBase.startsWith('/uievents/')
-                   || pathAndBase.startsWith('/pointerlock/')
-                   || pathAndBase.startsWith('/html/')) {
-            // Per-test automation scripts.
-            src = automationPath + pathAndBase + '-automation.js';
-        } else {
-            return;
-        }
-        var script = document.createElement('script');
-        script.src = src;
-        document.head.appendChild(script);
-    }
-
-    var didDispatchLoadEvent = false;
-    window.addEventListener('load', function() {
-        didDispatchLoadEvent = true;
-        if (isWPTManualTest()) {
-            setTimeout(loadAutomationScript, 0);
-        }
-    }, { once: true });
-
-    add_start_callback(function(properties) {
-      if (properties.output_document)
-        output_document = properties.output_document;
-    });
-
-    // Using a callback function, test results will be added to the page in a
-    // manner that allows dumpAsText to produce readable test results.
-    add_completion_callback(function (tests, harness_status) {
-
-        // Create element to hold results.
-        var results = output_document.createElement("pre");
-
-        // Declare result string.
-        var resultStr = "This is a testharness.js-based test.\n";
-
-        // Check harness_status.  If it is not 0, tests did not execute
-        // correctly, output the error code and message.
-        if (harness_status.status != 0) {
-            resultStr += "Harness Error. harness_status.status = " +
-                harness_status.status +
-                " , harness_status.message = " +
-                harness_status.message +
-                "\n";
-        }
-        // reflection tests contain huge number of tests, and Chromium code
-        // review tool has the 1MB diff size limit. We merge PASS lines.
-        if (output_document.URL.indexOf("/html/dom/reflection") >= 0) {
-            for (var i = 0; i < tests.length; ++i) {
-                if (tests[i].status == 0) {
-                    var colon = tests[i].name.indexOf(':');
-                    if (colon > 0) {
-                        var prefix = tests[i].name.substring(0, colon + 1);
-                        var j = i + 1;
-                        for (; j < tests.length; ++j) {
-                            if (!tests[j].name.startsWith(prefix) || tests[j].status != 0)
-                                break;
-                        }
-                        if ((j - i) > 1) {
-                            resultStr += convertResult(tests[i].status) +
-                                " " + sanitize(prefix) + " " + (j - i) + " tests\n"
-                            i = j - 1;
-                            continue;
-                        }
+            for (var metaIndex = 0; metaIndex < this.metadataProperties.length;
+                 metaIndex++) {
+                var meta = this.metadataProperties[metaIndex];
+                if (cachedTestMetadata.hasOwnProperty(meta) &&
+                    testMetadata.hasOwnProperty(meta)) {
+                    if (Array.isArray(cachedTestMetadata[meta])) {
+                      if (! Array.isArray(testMetadata[meta])) {
+                          return false;
+                      }
+                      if (cachedTestMetadata[meta].length ==
+                          testMetadata[meta].length) {
+                          for (var index = 0;
+                               index < cachedTestMetadata[meta].length;
+                               index++) {
+                              if (cachedTestMetadata[meta][index] !=
+                                  testMetadata[meta][index]) {
+                                  return false;
+                              }
+                          }
+                      }
+                      else {
+                          return false;
+                      }
+                    }
+                    else {
+                      if (Array.isArray(testMetadata[meta])) {
+                        return false;
+                      }
+                      if (cachedTestMetadata[meta] != testMetadata[meta]) {
+                        return false;
+                      }
                     }
                 }
-                resultStr += convertResult(tests[i].status) + " " +
-                    sanitize(tests[i].name) + " " +
-                    sanitize(tests[i].message) + "\n";
+                else if (cachedTestMetadata.hasOwnProperty(meta) ||
+                         testMetadata.hasOwnProperty(meta)) {
+                    return false;
+                }
             }
-        } else {
-            // Iterate through tests array and build string that contains
-            // results for all tests.
-            let testResults = "";
-            let resultCounter = [0, 0, 0, 0];
-            for (var i = 0; i < tests.length; ++i) {
-                resultCounter[tests[i].status]++;
-                testResults += convertResult(tests[i].status) + " " +
-                    sanitize(tests[i].name) + " " +
-                    sanitize(tests[i].message) + "\n";
+        }
+        for (var testName in this.cachedMetadata) {
+            return false;
+        }
+        return true;
+    },
+
+    appendText: function(elemement, text) {
+        elemement.appendChild(document.createTextNode(text));
+    },
+
+    jsonifyArray: function(arrayValue, indent) {
+        var output = '[';
+
+        if (1 == arrayValue.length) {
+            output += JSON.stringify(arrayValue[0]);
+        }
+        else {
+            for (var index = 0; index < arrayValue.length; index++) {
+                if (0 < index) {
+                    output += ',\n  ' + indent;
+                }
+                output += JSON.stringify(arrayValue[index]);
             }
-            if (output_document.URL.indexOf("http://web-platform.test") >= 0 &&
-                tests.length >= 50 && (resultCounter[1] || resultCounter[2] || resultCounter[3])) {
-                // Output failure metrics if there are many.
-                resultStr += `Found ${tests.length} tests;` +
-                    ` ${resultCounter[0]} PASS,` +
-                    ` ${resultCounter[1]} FAIL,` +
-                    ` ${resultCounter[2]} TIMEOUT,` +
-                    ` ${resultCounter[3]} NOTRUN.\n`;
+        }
+        output += ']';
+        return output;
+    },
+
+    jsonifyObject: function(objectValue, indent) {
+        var output = '{';
+        var value;
+
+        var count = 0;
+        for (var property in objectValue) {
+            ++count;
+            if (Array.isArray(objectValue[property]) ||
+                ('object' == typeof(value))) {
+                ++count;
             }
-            resultStr += testResults;
+        }
+        if (1 == count) {
+            for (var property in objectValue) {
+                output += ' "' + property + '": ' +
+                    JSON.stringify(objectValue[property]) +
+                    ' ';
+            }
+        }
+        else {
+            var first = true;
+            for (var property in objectValue) {
+                if (! first) {
+                    output += ',';
+                }
+                first = false;
+                output += '\n  ' + indent + '"' + property + '": ';
+                value = objectValue[property];
+                if (Array.isArray(value)) {
+                    output += this.jsonifyArray(value, indent +
+                        '                '.substr(0, 5 + property.length));
+                }
+                else if ('object' == typeof(value)) {
+                    output += this.jsonifyObject(value, indent + '  ');
+                }
+                else {
+                    output += JSON.stringify(value);
+                }
+            }
+            if (1 < output.length) {
+                output += '\n' + indent;
+            }
+        }
+        output += '}';
+        return output;
+    },
+
+    /**
+     * Generate javascript source code for captured metadata
+     * Metadata is in pretty-printed JSON format
+     */
+    generateSource: function() {
+        /* "\/" is used instead of a plain forward slash so that the contents
+        of testharnessreport.js can (for convenience) be copy-pasted into a
+        script tag without issue. Otherwise, the HTML parser would think that
+        the script ended in the middle of that string literal. */
+        var source =
+            '<script id="metadata_cache">/*\n' +
+            this.jsonifyObject(this.currentMetadata, '') + '\n' +
+            '*/<\/script>\n';
+        return source;
+    },
+
+    /**
+     * Add element containing metadata source code
+     */
+    addSourceElement: function(event) {
+        var sourceWrapper = document.createElement('div');
+        sourceWrapper.setAttribute('id', 'metadata_source');
+
+        var instructions = document.createElement('p');
+        if (this.cachedMetadata) {
+            this.appendText(instructions,
+                'Replace the existing <script id="metadata_cache"> element ' +
+                'in the test\'s <head> with the following:');
+        }
+        else {
+            this.appendText(instructions,
+                'Copy the following into the <head> element of the test ' +
+                'or the test\'s metadata sidecar file:');
+        }
+        sourceWrapper.appendChild(instructions);
+
+        var sourceElement = document.createElement('pre');
+        this.appendText(sourceElement, this.generateSource());
+
+        sourceWrapper.appendChild(sourceElement);
+
+        var messageElement = document.getElementById('metadata_issue');
+        messageElement.parentNode.insertBefore(sourceWrapper,
+                                               messageElement.nextSibling);
+        messageElement.parentNode.removeChild(messageElement);
+
+        (event.preventDefault) ? event.preventDefault() :
+                                 event.returnValue = false;
+    },
+
+    /**
+     * Extract the metadata cache from the cache element if present
+     */
+    getCachedMetadata: function() {
+        var cacheElement = document.getElementById('metadata_cache');
+
+        if (cacheElement) {
+            var cacheText = cacheElement.firstChild.nodeValue;
+            var openBrace = cacheText.indexOf('{');
+            var closeBrace = cacheText.lastIndexOf('}');
+            if ((-1 < openBrace) && (-1 < closeBrace)) {
+                cacheText = cacheText.slice(openBrace, closeBrace + 1);
+                try {
+                    this.cachedMetadata = JSON.parse(cacheText);
+                }
+                catch (exc) {
+                    this.cachedMetadata = 'Invalid JSON in Cached metadata. ';
+                }
+            }
+            else {
+                this.cachedMetadata = 'Metadata not found in cache element. ';
+            }
+        }
+    },
+
+    /**
+     * Main entry point, extract metadata from tests, compare to cached version
+     * if present.
+     * If cache not present or differs from extrated metadata, generate an error
+     */
+    process: function(tests) {
+        for (var index = 0; index < tests.length; index++) {
+            var test = tests[index];
+            this.currentMetadata[test.name] = this.extractFromTest(test);
         }
 
-        resultStr += "Harness: the test ran to completion.\n";
+        this.getCachedMetadata();
 
-        // Set results element's textContent to the results string.
-        results.textContent = resultStr;
+        var message = null;
+        var messageClass = 'warning';
+        var showSource = false;
 
-        function done() {
-            let xhtmlNS = 'http://www.w3.org/1999/xhtml';
-            var body = null;
-            if (output_document.body && output_document.body.tagName == 'BODY' && output_document.body.namespaceURI == xhtmlNS)
-                body = output_document.body;
-            // A temporary workaround since |window.self| property lookup starts
-            // failing if the frame is detached. |output_document| may be an
-            // ancestor of |self| so clearing |textContent| may detach |self|.
-            // To get around this, cache window.self now and use the cached
-            // value.
-            // TODO(dcheng): Remove this hack after fixing window/self/frames
-            // lookup in https://crbug.com/618672
-            var cachedSelf = window.self;
-            if (cachedSelf.testRunner) {
-                // The following DOM operations may show console messages.  We
-                // suppress them because they are not related to the running
-                // test.
-                testRunner.setDumpConsoleMessages(false);
-
-                // Anything isn't material to the testrunner output, so should
-                // be hidden from the text dump.
-                if (body)
-                    body.textContent = '';
+        if (0 === tests.length) {
+            if (this.cachedMetadata) {
+                message = 'Cached metadata present but no tests. ';
             }
-
-            // Add results element to output_document.
-            if (!body) {
-                // output_document might be an SVG document.
-                if (output_document.documentElement)
-                    output_document.documentElement.remove();
-                let html = output_document.createElementNS(xhtmlNS, 'html');
-                output_document.appendChild(html);
-                body = output_document.createElementNS(xhtmlNS, 'body');
-                body.setAttribute('style', 'white-space:pre;');
-                html.appendChild(body);
+        }
+        else if (1 === tests.length) {
+            if (this.cachedMetadata) {
+                message = 'Single test files should not have cached metadata. ';
             }
-            output_document.body.appendChild(results);
-
-            if (cachedSelf.testRunner)
-                testRunner.notifyDone();
+            else {
+                var testMetadata = this.currentMetadata[tests[0].name];
+                for (var meta in testMetadata) {
+                    if (testMetadata.hasOwnProperty(meta)) {
+                        message = 'Single tests should not have metadata. ' +
+                                  'Move metadata to <head>. ';
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            if (this.cachedMetadata) {
+                messageClass = 'error';
+                if ('string' == typeof(this.cachedMetadata)) {
+                    message = this.cachedMetadata;
+                    showSource = true;
+                }
+                else if (! this.validateCache()) {
+                    message = 'Cached metadata out of sync. ';
+                    showSource = true;
+                }
+            }
         }
 
-        if (didDispatchLoadEvent || output_document.readyState != 'loading') {
-            // This function might not be the last 'completion callback', and
-            // another completion callback might generate more results.  So, we
-            // don't dump the results immediately.
-            setTimeout(done, 0);
-        } else {
-            // Parsing the test HTML isn't finished yet.
-            window.addEventListener('load', done);
+        if (message) {
+            var messageElement = document.createElement('p');
+            messageElement.setAttribute('id', 'metadata_issue');
+            messageElement.setAttribute('class', messageClass);
+            this.appendText(messageElement, message);
+
+            if (showSource) {
+                var link = document.createElement('a');
+                this.appendText(link, 'Click for source code.');
+                link.setAttribute('href', '#');
+                link.setAttribute('onclick',
+                                  'metadata_generator.addSourceElement(event)');
+                messageElement.appendChild(link);
+            }
+
+            var summary = document.getElementById('summary');
+            if (summary) {
+                summary.parentNode.insertBefore(messageElement, summary);
+            }
+            else {
+                var log = document.getElementById('log');
+                if (log) {
+                    log.appendChild(messageElement);
+                }
+            }
         }
+    },
+
+    setup: function() {
+        add_completion_callback(
+            function (tests, harness_status) {
+                metadata_generator.process(tests, harness_status);
+                dump_test_results(tests, harness_status);
+            });
+    }
+};
+
+function dump_test_results(tests, status) {
+    var results_element = document.createElement("script");
+    results_element.type = "text/json";
+    results_element.id = "__testharness__results__";
+    var test_results = tests.map(function(x) {
+        return {name:x.name, status:x.status, message:x.message, stack:x.stack}
     });
+    var data = {test:window.location.href,
+                tests:test_results,
+                status: status.status,
+                message: status.message,
+                stack: status.stack};
+    results_element.textContent = JSON.stringify(data);
 
-})();
+    // To avoid a HierarchyRequestError with XML documents, ensure that 'results_element'
+    // is inserted at a location that results in a valid document.
+    var parent = document.body
+        ? document.body                 // <body> is required in XHTML documents
+        : document.documentElement;     // fallback for optional <body> in HTML5, SVG, etc.
+
+    parent.appendChild(results_element);
+}
+
+metadata_generator.setup();
+
+/* If the parent window has a testharness_properties object,
+ * we use this to provide the test settings. This is used by the
+ * default in-browser runner to configure the timeout and the
+ * rendering of results
+ */
+try {
+    if (window.opener && "testharness_properties" in window.opener) {
+        /* If we pass the testharness_properties object as-is here without
+         * JSON stringifying and reparsing it, IE fails & emits the message
+         * "Could not complete the operation due to error 80700019".
+         */
+        setup(JSON.parse(JSON.stringify(window.opener.testharness_properties)));
+    }
+} catch (e) {
+}
+// vim: set expandtab shiftwidth=4 tabstop=4:
