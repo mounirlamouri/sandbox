@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls></video>
+<div id=controls>
+<label>Set rate <input id=rate type='number' step=0.01 value=1></label>
+<div id=log></div>
+</div>
+<script>
+var video = document.querySelector('video');
+video.addEventListener('play', function(e) {
+  document.querySelector('#controls').hidden = false;
+});
+video.addEventListener('pause', function(e) {
+  document.querySelector('#controls').hidden = true;
+});
+
+document.querySelector('#rate').addEventListener('change', function(e) {
+  video.defaultPlaybackRate = this.value;
+  video.playbackRate = this.value;
+  
+  document.querySelector('#log').innerHTML += '<div>new playbackRate = '
+                                            + video.playbackRate + '<br>new defaultPlaybackRate = '
+                                            + video.defaultPlaybackRate + '</div>';
+});
+</script>
