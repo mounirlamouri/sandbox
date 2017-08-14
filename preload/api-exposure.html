@@ -22,7 +22,7 @@ var divs = document.querySelectorAll('div');
 var vids = document.querySelectorAll('video');
 
 for (var i = 0; i < vids.length; ++i) {
-  divs[i].innerHTML += ' exposed as ' + vids[i].preload;
+  divs[i].innerHTML += ' exposed as ' + vids[i].preload + ' and ready state value is ' + vids[i].readyState;
 }
 </script>
 </html>
