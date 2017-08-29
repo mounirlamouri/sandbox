@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<body>
+<div id=log></div>
+</body>
+<script>
+var v = document.createElement('video');
+var promise = v.play();
+if (promise === undefined)
+  document.querySelector('#log').innerHTML = 'no promise';
+else
+  document.querySelector('#log').innerHTML = 'has promise';
+</script>
