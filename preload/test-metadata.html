@@ -8,9 +8,18 @@
 <video preload='metadata' playsinline src='https://webkit.org/wp-content/uploads/forever.mp4' controls></video>
 <script>
 var video = document.querySelector('video');
-video.onloadedmetadata = function() {
-  document.body.innerHTML += "<div>onloadedmetadata</div>";
-};
+video.addEventListener('loadedmetadata', () => {
+  document.body.innerHTML += "<div>loadedmetadata</div>";
+});
+video.addEventListener('loadeddata', () => {
+  document.body.innerHTML += "<div>loadeddata</div>";
+});
+video.addEventListener('canplay', () => {
+  document.body.innerHTML += "<div>canplay</div>";
+});
+video.addEventListener('canplaythrough', () => {
+  document.body.innerHTML += "<div>canplaythrough</div>";
+});
 </script>
 </body>
 </html>
