@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls></video>
+  <br><label>playback rate <input type=range min=0.01 max=50 value=1></label>
+  <br><button>decodingInfo()</button>
+  <div id=log></div>
+</body>
+<script>
+  function p(txt) {
+    var line = document.createElement('div');
+    line.textContent = txt;
+    document.getElementById('log').appendChild(line);
+  }
+  document.querySelector('button').addEventListener('click', () => {
+    if (!('mediaCapabilities' in navigator)) {
+      p('MediaCapabilities API not available');
+      return;
+    }
+    if (!('decodingInfo' in navigator.mediaCapabilities)) {
+      p('MediaCapabilities APIs decodingInfo() not available');
+      return;
+    }
+
+    navigator.mediaCapabilities.decodingInfo({
+      type: 'file',
+      video: {
+        contentType: 'video/mp4; codecs=avc1.640028',
+        width: 854,       // 848 vs 854 
+        height: 480,
+        framerate: 24,    // 24 vs 25
+        bitrate: 1199000, // Used?
+      }
+    }).then(r => {
+      p('supported: ' + r.supported +
+        ' smooth: ' + r.smooth +
+        ' powerEfficient: ' + r.powerEfficient);
+    });
+  });
+</script>
+</html>
