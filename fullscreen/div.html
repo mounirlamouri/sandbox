@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+<title>DIV Fullscreen Test</title>
+</head>
+<body>
+<div>This is a first div</div>
+<div>This is another one</div>
+<div>This div may go fullscreen</div>
+<div>This div is the fourth one</div>
+<div>This div is the last</div>
+<button>Fullscreen</button>
+</div>
+<script>
+document.querySelector('button').addEventListener('click', e => {
+  document.querySelectorAll('div')[2].webkitRequestFullscreen();
+});
+</script>
