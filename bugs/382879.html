@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<style>
+div {
+  padding: 5px;
+  margin: 5px;
+}
+#first {
+  background-color: blue;
+}
+#second {
+  background-color: yellow;
+}
+</style>
+<div id=first>
+  <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls></video>
+</div>
+<div id=second>
+</div>
+<button>move</button>
+<ol>
+  <li>
+    Play video
+  </li>
+  <li>
+    Press "move"
+  </li>
+</ol>
+<div><b>Expected Result:</b> video continues to play in the yellow area</div>
+<script>
+document.querySelector('button').addEventListener('click', () => {
+  document.querySelector('#second').appendChild(document.querySelector('video'));
+});
+</script>
