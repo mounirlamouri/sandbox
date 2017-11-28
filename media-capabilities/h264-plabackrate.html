@@ -11,14 +11,18 @@
   <div id=log></div>
 </body>
 <script>
+  var input = document.querySelector('input');
+  
   function p(txt) {
     var line = document.createElement('div');
     line.textContent = txt;
     document.getElementById('log').appendChild(line);
   }
-  document.querySelector('input').addEventListener('change', () => {
-    document.querySelector('video').playbackRate = this.valueAsNumber;
+  
+  input.addEventListener('change', () => {
+    document.querySelector('video').playbackRate = input.valueAsNumber;
   });
+  
   document.querySelector('button').addEventListener('click', () => {
     if (!('mediaCapabilities' in navigator)) {
       p('MediaCapabilities API not available');
@@ -29,7 +33,7 @@
       return;
     }
 
-    var framerate = 25 * document.querySelector('input').valueAsNumber;
+    var framerate = 25 * input.valueAsNumber;
     navigator.mediaCapabilities.decodingInfo({
       type: 'file',
       video: {
