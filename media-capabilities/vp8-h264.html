@@ -39,7 +39,7 @@
     }
 
     // TODO: use a different one for vp8
-    var contentType = 'video/mp4; codecs=avc1.640028';
+    var contentType = select.selectedOptions[0] == 'vp8' ? 'video/webm; codecs=vp8' : 'video/mp4; codecs=avc1.640028';
     navigator.mediaCapabilities.decodingInfo({
       type: 'file',
       video: {
