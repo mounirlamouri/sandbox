@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.webmcontrols></video>
+  <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.webm controls></video>
   <div>Video format:
     <select>
       <option selected value=https://storage.googleapis.com/dalecurtis-shared/buck2.webm>vp8</option>
@@ -25,7 +25,7 @@
   }
   
   select.addEventListener('change', () => {
-    console.log('selection changed');
+    document.querySelector('video').src = select.value;
   });
   
   document.querySelector('button').addEventListener('click', () => {
@@ -50,8 +50,8 @@
         bitrate: 1199000, // Used?
       }
     }).then(r => {
-      // TODO: print video format
-      p('supported: ' + r.supported +
+      p('[' + select.selectedOptions[0].label + ']' +
+        'supported: ' + r.supported +
         ' smooth: ' + r.smooth +
         ' powerEfficient: ' + r.powerEfficient);
     });
