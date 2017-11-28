@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Media Capabilities API: h264 test page with playbackrate changes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 <body>
   <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls></video>
   <br><label>playback rate <input type=range min=0.01 max=50 value=1></label>
@@ -12,6 +16,9 @@
     line.textContent = txt;
     document.getElementById('log').appendChild(line);
   }
+  document.querySelector('input').addEventListener('change', () => {
+    document.querySelector('video').playbackRate = this.value;
+  });
   document.querySelector('button').addEventListener('click', () => {
     if (!('mediaCapabilities' in navigator)) {
       p('MediaCapabilities API not available');
