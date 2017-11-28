@@ -17,7 +17,7 @@
     document.getElementById('log').appendChild(line);
   }
   document.querySelector('input').addEventListener('change', () => {
-    document.querySelector('video').playbackRate = this.value;
+    document.querySelector('video').playbackRate = this.valueAsNumber;
   });
   document.querySelector('button').addEventListener('click', () => {
     if (!('mediaCapabilities' in navigator)) {
@@ -29,13 +29,14 @@
       return;
     }
 
+    var framerate = 25 * document.querySelector('input').valueAsNumber;
     navigator.mediaCapabilities.decodingInfo({
       type: 'file',
       video: {
         contentType: 'video/mp4; codecs=avc1.640028',
-        width: 854,       // 848 vs 854 
+        width: 848,       // 854 
         height: 480,
-        framerate: 24,    // 24 vs 25
+        framerate: framerate,    // 25
         bitrate: 1199000, // Used?
       }
     }).then(r => {
