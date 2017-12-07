@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+</head>
+<video autoplay loop muted></video>
+<button data-src=https://webkit.org/wp-content/uploads/forever.mp4>video1</button><button data-src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4>video2</button>
+<script>
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelector('video').src = button.getAttribute('data-src');
+  });
+});
+</script>
