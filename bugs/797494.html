@@ -1,0 +1,20 @@
+<meta name="viewport" content="width=device-width">
+<link rel="icon" href="https://dummyimage.com/192/ff0000/000000.png&text=icon" sizes="192x192">
+<audio src="http://cdn.radio-t.com/rt_podcast576.mp3"></audio>
+<button onclick="playme()" style="font-size: 400%">PLAY</button>
+<script>
+function playme() {
+    document.getElementsByTagName("audio")[0].play();
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+            title: "my",
+            artist: "my",
+            artwork: [{
+                src: "https://dummyimage.com/512/00ff00/000000.png&text=media+artwork",
+                sizes: "512x512",
+                type: "image/png"
+            }]
+        });
+
+}
+</script>
