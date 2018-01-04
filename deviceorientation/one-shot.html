@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<div>
+</div>
+<script>
+var count = 0;
+window.addEventListener('deviceorientation', function(e) {
+  if (count != 0)
+    return;
+  count++;
+  console.log('alpha: ' + e.alpha);
+  console.log('beta: ' + e.beta);
+  console.log('gamma: ' + e.gamma);
+  console.log('absolute: ' + e.asolute);
+}, true);
+</script>
