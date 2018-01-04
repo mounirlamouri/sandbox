@@ -3,13 +3,21 @@
 </div>
 <script>
 var count = 0;
+ 
+function log(txt) {
+  var container = document.querySelector('div');
+  var entry = document.createElement('div');
+  entry.textContent = txt;
+  container.appendChild(entry);
+}
+  
 window.addEventListener('deviceorientation', function(e) {
   if (count != 0)
     return;
   count++;
-  console.log('alpha: ' + e.alpha);
-  console.log('beta: ' + e.beta);
-  console.log('gamma: ' + e.gamma);
-  console.log('absolute: ' + e.asolute);
+  log('alpha: ' + e.alpha);
+  log('beta: ' + e.beta);
+  log('gamma: ' + e.gamma);
+  log('absolute: ' + e.asolute);
 }, true);
 </script>
