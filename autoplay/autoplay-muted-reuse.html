@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<video autoplay muted playsinline></video>
+<script>
+var video = document.querySelector('video');
+video.src = 'https://storage.googleapis.com/dalecurtis-shared/buck2.mp4';
+video.addEventListener('play', e => {
+  setTimeout(() => {
+    video.src = 'https://webkit.org/wp-content/uploads/forever.mp4';
+  });
+}, { once: true });
+</script>
+</body>
+</html>
