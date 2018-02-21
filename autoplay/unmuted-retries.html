@@ -2,6 +2,6 @@
 <video src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4 controls></video>
 <script>
 setInterval(function() {
-  document.querySelector('video').play();
-}, 100);
+  document.querySelector('video').play().catch(e => {});
+}, 1000);
 </script>
