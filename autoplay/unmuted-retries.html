@@ -4,4 +4,12 @@
 setInterval(function() {
   document.querySelector('video').play().catch(e => {});
 }, 1000);
+  
+function keyHandler(e) {
+  console.log('event: ', e);
+};
+  
+document.addEventListener('keydown', keyhandler);
+document.addEventListener('keypress', keyhandler);
+document.addEventListener('keyup', keyhandler);
 </script>
