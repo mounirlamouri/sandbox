@@ -25,6 +25,7 @@
     <div><label>Controls: <input type=checkbox checked id=controls></label></div>
     <div><label>Disable cast: <input type=checkbox id=disableCast></label></div>
     <div><label>Captions: <input type=checkbox checked id=captions></label></div>
+    <div><label>Label Captions: <input type=checkbox checked id=labelcaptions></label></div>
   </fieldset>
 </body>
 <script>
@@ -38,6 +39,16 @@
   }
   function removeCaptions() {
     while (video.firstChild) { video.removeChild(video.firstChild); }
+  }
+  function addLabelCaptions() {
+    captions[0].srclang = 'en';
+    captions[0].label = 'English';
+    captions[1].srclang = 'fr';
+    captions[1].label = 'French';
+  }
+  function removeLabelCaptions() {
+    captions[0].srclang = captions[0].label = '';
+    captions[1].srclang = captions[1].label = '';
   }
 
   var radios = document.querySelectorAll('input[type=radio]');
@@ -55,7 +66,8 @@
   document.getElementById('controls').onchange = function() { audio.controls = video.controls = this.checked; };
   document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
   document.getElementById('disableCast').onchange = function() { audio.disableRemotePlayback = video.disableRemotePlayback = this.checked; };
-
+  document.getElementById('labelcaptions').onchange = function() { this.checked ? addLabelCaptions() : removeLabelCaptions(); };
+  
   // Initialize width.
   if (window.location.search.startsWith('?width=')) {
     document.getElementById('width').value = window.location.search.substring('?width='.length, window.location.search.length);
