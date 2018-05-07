@@ -8,7 +8,7 @@
 <body>
 <button onclick='gContext.resume();'>resume()</button>
 <button onclick='gContext.suspend();'>suspend()</button>
-<div id=version>v0.5.2</div>
+<div id=version>v0.5.3</div>
 <div id=log></div>
 <script>
 function log(txt) {
@@ -40,6 +40,7 @@ function playEncodedBuffer(encodedBuffer) {
     source.buffer = buffer;
     source.connect(gContext.destination);
     try {
+      log('state: ' + gContext.state);
       source.start(0);
     } catch (e) {
       var d = document.createElement('div');
