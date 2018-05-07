@@ -8,8 +8,13 @@
 <body>
 <button onclick='gContext.resume();'>resume()</button>
 <button onclick='gContext.suspend();'>suspend()</button>
-v0.5.1
+<div id=version>v0.5.2</div>
+<div id=log></div>
 <script>
+function log(txt) {
+  document.querySelector('#log').innerHTML += '<div>' + txt + '</div>';
+}
+
 function createAudioContext() {
   if ('AudioContext' in window)
     return new AudioContext();
@@ -30,6 +35,7 @@ function fetchFile(url) {
 
 function playEncodedBuffer(encodedBuffer) {
   gContext.decodeAudioData(encodedBuffer, function(buffer){
+    log('decoded file');
     var source = gContext.createBufferSource();
     source.buffer = buffer;
     source.connect(gContext.destination);
@@ -45,7 +51,9 @@ function playEncodedBuffer(encodedBuffer) {
 
 var URL = 'https://raw.githubusercontent.com/mounirlamouri/sandbox/gh-pages/media/tetris.mp3';
 var gContext = createAudioContext();
+log('state: ' + gContext.state);
 fetchFile(URL).then(function(buffer) {
+  log('fetched file');
   playEncodedBuffer(buffer);
 });
 </script>
