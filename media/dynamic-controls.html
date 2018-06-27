@@ -26,6 +26,7 @@
     <div><label>Disable cast: <input type=checkbox id=disableCast></label></div>
     <div><label>Captions: <input type=checkbox checked id=captions></label></div>
     <div><label>Label Captions: <input type=checkbox checked id=labelcaptions></label></div>
+    <div><label>Picture-in-Picture: <input type=checkbox checked id=pip></label></div>
   </fieldset>
 </body>
 <script>
@@ -67,7 +68,8 @@
   document.getElementById('captions').onchange = function() { this.checked ? addCaptions() : removeCaptions(); };
   document.getElementById('disableCast').onchange = function() { audio.disableRemotePlayback = video.disableRemotePlayback = this.checked; };
   document.getElementById('labelcaptions').onchange = function() { this.checked ? addLabelCaptions() : removeLabelCaptions(); };
-  
+  document.getElementById('pip').onchange = function() { video.disablePictureInPicture = !this.checked; };
+
   // Initialize width.
   if (window.location.search.startsWith('?width=')) {
     document.getElementById('width').value = window.location.search.substring('?width='.length, window.location.search.length);
