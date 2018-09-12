@@ -27,13 +27,19 @@ oscillator.frequency.value = 0;
 oscillator.connect(gain).connect(ac.destination);
 oscillator.start();
 
-document.querySelector('input#gain').addEventListener('change', () => {
+function updateGain() {
   gain.gain.value = document.querySelector('input#gain').valueAsNumber;
-});
+}
   
-document.querySelector('input#freq').addEventListener('change', () => {
+function updateFreq() {
   oscillator.frequency.value = document.querySelector('input#freq').valueAsNumber;
-});
+}
+  
+document.querySelector('input#gain').addEventListener('change', updateGain);
+document.querySelector('input#gain').addEventListener('input', updateGain);
+  
+document.querySelector('input#freq').addEventListener('change', updateFreq);
+document.querySelector('input#freq').addEventListener('input', updateFreq);
 
 </script>
 </html>
