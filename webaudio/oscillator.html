@@ -6,8 +6,8 @@
 <body>
   <button onclick='ac.resume();'>resume()</button><br>
   <button onclick='ac.suspend();'>suspend()</button><br>
-  <input type=range min=0 max=1 step=0.01 id=gain><br>
-  <input type=range min=0 max=5000 step=100 id=freq><br>
+  <input type=range min=0 max=1 step=0.01 value=0 id=gain><br>
+  <input type=range min=0 max=5000 step=100 value=0 id=freq><br>
 </body>
 <script>
 function createAudioContext() {
@@ -19,7 +19,7 @@ function createAudioContext() {
 var ac = createAudioContext();
 
 var oscillator = ac.createOscillator();
-var gain = new GainNode(context, {gain: 0});
+var gain = new GainNode(ac, {gain: 0});
 
 oscillator.type = 'sine';
 oscillator.frequency.value = 0;
