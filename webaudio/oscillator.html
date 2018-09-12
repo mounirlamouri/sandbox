@@ -4,8 +4,10 @@
 <title>Oscillator test</title>
 </head>
 <body>
-  <button onclick='ac.resume();'>resume()</button>
-  <button onclick='ac.suspend();'>suspend()</button>
+  <button onclick='ac.resume();'>resume()</button><br>
+  <button onclick='ac.suspend();'>suspend()</button><br>
+  <input type=range min=0 max=1 step=0.01 id=gain><br>
+  <input type=range min=0 max=5000 step=100 id=freq><br>
 </body>
 <script>
 function createAudioContext() {
@@ -17,14 +19,21 @@ function createAudioContext() {
 var ac = createAudioContext();
 
 var oscillator = ac.createOscillator();
+var gain = new GainNode(context, {gain: 0});
+
 oscillator.type = 'sine';
 oscillator.frequency.value = 0;
-oscillator.connect(ac.destination);
+
+oscillator.connect(gain).connect(ac.destination);
 oscillator.start();
 
-setInterval(function() {
-  oscillator.frequency.value += 100;
-}, 1000);
+document.querySelector('input#gain').addEventListener('change', () => {
+  gain.gain.value = this.value;
+});
+  
+document.querySelector('input#freq').addEventListener('change', () => {
+  oscillator.frequency.value = this.value;
+});
 
 </script>
 </html>
