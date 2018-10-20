@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>WebAudio autoplay</title>
+  <script src='promise.min.js'></script>
+</head>
+<body>
+<button onclick='gContext.resume();'>resume()</button>
+<button onclick='gContext.suspend();'>suspend()</button>
+<div id=version>v0.5.3</div>
+<div id=log></div>
+<script>
+function log(txt) {
+  document.querySelector('#log').innerHTML += '<div>' + txt + '</div>';
+}
+
+function createAudioContext() {
+  if ('AudioContext' in window)
+    return new AudioContext();
+  return new webkitAudioContext();
+}
+
+function fetchFile(url) {
+  return new Promise(function(resolve, reject) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.responseType = 'arraybuffer';
+    request.send();
+    request.addEventListener('load', function() {
+      resolve(request.response);
+    });
+  });
+}
+
+function playEncodedBuffer(encodedBuffer) {
+  gContext.decodeAudioData(encodedBuffer, function(buffer){
+    log('decoded file');
+    var source = gContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(gContext.destination);
+    try {
+      log('state: ' + gContext.state);
+      source.start(0);
+    } catch (e) {
+      var d = document.createElement('div');
+      d.innerHTML = 'Failed to start with ' + e;
+      document.body.appendChild(d);
+    }
+  });
+}
+
+var URL = '<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>WebAudio autoplay</title>
+  <script src='promise.min.js'></script>
+</head>
+<body>
+<button onclick='gContext.resume();'>resume()</button>
+<button onclick='gContext.suspend();'>suspend()</button>
+<div id=version>v0.5.3</div>
+<div id=log></div>
+<script>
+function log(txt) {
+  document.querySelector('#log').innerHTML += '<div>' + txt + '</div>';
+}
+
+function createAudioContext() {
+  if ('AudioContext' in window)
+    return new AudioContext();
+  return new webkitAudioContext();
+}
+
+function fetchFile(url) {
+  return new Promise(function(resolve, reject) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.responseType = 'arraybuffer';
+    request.send();
+    request.addEventListener('load', function() {
+      resolve(request.response);
+    });
+  });
+}
+
+function playEncodedBuffer(encodedBuffer) {
+  gContext.decodeAudioData(encodedBuffer, function(buffer){
+    log('decoded file');
+    var source = gContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(gContext.destination);
+    try {
+      log('state: ' + gContext.state);
+      source.start(0);
+    } catch (e) {
+      var d = document.createElement('div');
+      d.innerHTML = 'Failed to start with ' + e;
+      document.body.appendChild(d);
+    }
+  });
+}
+
+var URL = 'https://raw.githubusercontent.com/mounirlamouri/sandbox/gh-pages/media/pacman_beginning.mp3';
+var gContext = createAudioContext();
+log('state: ' + gContext.state);
+fetchFile(URL).then(function(buffer) {
+  log('fetched file');
+  playEncodedBuffer(buffer);
+});
+</script>
+</body>
+</html>
+';
+var gContext = createAudioContext();
+log('state: ' + gContext.state);
+fetchFile(URL).then(function(buffer) {
+  log('fetched file');
+  playEncodedBuffer(buffer);
+});
+</script>
+</body>
+</html>
