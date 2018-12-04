@@ -8,7 +8,7 @@
 <script>
 async_test(function(t) {
     var video = document.querySelector("video");
-    video.src = "../content/test.ogv";
+    video.src = "https://storage.googleapis.com/dalecurtis-shared/buck2.mp4";
     // The currentPlaybackPosition can still be 0 for live stream as:
     // "no media data is available for immediate current playback position".
     video.onloadedmetadata = t.step_func(function() {
