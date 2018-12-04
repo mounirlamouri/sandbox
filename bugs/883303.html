@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>On loadedmetadata event the activeCues list should still be empty as no media data is available for current playback position</title>
+<script src="resources/testharness.js"></script>
+<script src="resources/testharnessreport.js"></script>
+<video>
+    <track src="resources/active-cues.vtt" kind="captions" default>
+</video>
+<script>
+async_test(function(t) {
+    var video = document.querySelector("video");
+    video.src = "../content/test.ogv";
+    // The currentPlaybackPosition can still be 0 for live stream as:
+    // "no media data is available for immediate current playback position".
+    video.onloadedmetadata = t.step_func(function() {
+        var cues = video.textTracks[0].activeCues;
+        // Therefore we do not want activeCues for time 0 yet.
+        assert_equals(cues.length, 0);
+    });
+    video.oncanplaythrough = t.step_func_done(function() {
+        cues = video.textTracks[0].activeCues;
+        // Media data available, we want activeCues for currentPlaybackPosition
+        assert_equals(cues.length, 1);
+    });
+});
+</script>
