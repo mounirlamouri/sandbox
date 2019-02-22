@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<video src='https://storage.googleapis.com/dalecurtis-shared/buck2.mp4' controls></video>
+<div>click play to test</div>
+
+<video hidden preload='metadata' src='http://media.w3.org/2010/05/video/movie_300.mp4'></video>
+
+<script>
+let videos = document.querySelectorAll('video');
+videos[0].addEventListener('playing', e => {
+  videos[0].requestPictureInPicture();
+  setTimeout(() => {
+    videos[0].pause();
+    videos[1].play().then(videos[1].requestPictureInPicture);
+    setTimeout(() => {
+      videos[1].pause();
+      videos[0].play().then(videos[0].requestPictureInPicture);
+    }, 1000);
+  }, 1000);
+});
+</script>
