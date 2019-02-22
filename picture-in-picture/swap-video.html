@@ -11,10 +11,14 @@ videos[0].addEventListener('playing', e => {
   videos[0].requestPictureInPicture();
   setTimeout(() => {
     videos[0].pause();
-    videos[1].play().then(videos[1].requestPictureInPicture);
+    videos[1].play().then(() => {
+      videos[1].requestPictureInPicture();
+    });
     setTimeout(() => {
       videos[1].pause();
-      videos[0].play().then(videos[0].requestPictureInPicture);
+      videos[0].play().then(() => {
+        videos[0].requestPictureInPicture();
+      });
     }, 1000);
   }, 1000);
 });
