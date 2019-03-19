@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <body>
-<div></div>
-<div></div>
+  <span>playsInline</span>
+  <div></div>
+  <span>webkit-playsinline</span>
+  <div></div>
 </body>
 <script>
 var v = document.createElement('video');
-document.querySelectorAll('div')[0].innerText = 'playsinline' in v;
+document.querySelectorAll('div')[0].innerText = 'playsInline' in v;
 document.querySelectorAll('div')[1].innerText = 'webkit-playsinline' in v;
 </script>
 </html>
