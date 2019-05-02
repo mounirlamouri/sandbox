@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Autoplay volume zero test page</title>
+</head>
+<body>
+<video playsinline controls src=https://storage.googleapis.com/dalecurtis-shared/buck2.mp4>
+</video>
+<script>
+let v = document.querySelector('video');
+v.volume = 0;
+v.play();
+</script>
+</body>
+</html>
