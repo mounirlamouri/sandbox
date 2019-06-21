@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:20.000 region:fred align:left
+<c.red>Hi</c>, <c.blue>my name is Fred</c>
+
+00:00:02.500 --> 00:00:22.500 region:bill align:right
+<c.red>Hi</c>, <c.blue>I’m Bill</c>
+
+00:00:05.000 --> 00:00:25.000 region:fred align:left
+<c.green>Would</c> <c.yellow>you like to get a coffee?</c>
+
+00:00:07.500 --> 00:00:27.500 region:bill align:right
+<c.green>Sure!</c> <c.yellow>I’ve only had one today.</c>
+
+00:00:10.000 --> 00:00:30.000 region:fred align:left
+<c.black>This is my fourth!</c>
+
+00:00:12.500 --> 00:00:32.500 region:fred align:left
+<c.red>OK</c>, <c.blue>let’s go.</c>
