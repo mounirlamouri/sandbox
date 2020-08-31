@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<video src='https://storage.googleapis.com/media-session/big-buck-bunny/trailer.mov' controls></video>
+</body>
+<sccript>
+navigator.mediaSession.metadata = new MediaMetadata({
+  title: 'Big Buck Bunny',
+  artist: 'Blender Foundation',
+  artwork: [{
+    src: 'https://storage.googleapis.com/media-session/big-buck-bunny/artwork-512.png',
+//    sizes: '512x512',
+    type: 'image/png'
+  }],
+});
+</script>
+</html>
