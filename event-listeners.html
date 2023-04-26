@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Listeners</title>
+</head>
+<body>
+  <div id='log'></div>
+</body>
+<script>
+  function p(text) {
+    let d = document.createElement('div');
+    d.textContent = text;
+    document.querySelector('#log').appendChild(d);
+  }
+  window.addEventListener('focus', () => {
+    p('focused');
+  });
+  window.addEventListener('blur', () => {
+    p('blured');
+  });
+  document.addEventListener('mouseover', () => {
+    p('mouseover');
+  });
+  document.addEventListener('click', () => {
+    p('click');
+  });
+  document.addEventListener('keydown', () => {
+    p('keydown');
+  });
+
+</script>
+</html>
