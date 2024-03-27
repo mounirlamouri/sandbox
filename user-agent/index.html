@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<style>
+span .title {
+  min-width: 200px;
+}
+</style>
+<body>
+<div>
+    <span class='title'>From window:</span> <span id='window'></span>
+</div>
+<div>
+    <span class='title'>From worker:</span> <span id='worker'></span>
+</div>
+</body>
+<script>
+  document.querySelector('#window').textContent = navigator.userAgent;
+  let worker = new Worker('worker.js');
+  worker.addEventListener('message', e => {
+    document.querySelector('#worker').textContent = e.data;
+  });
+  worker.postMessage('foo');
+</script>
