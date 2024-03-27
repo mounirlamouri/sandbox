@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html>
 <style>
-span .title {
-  min-width: 200px;
+.title {
+  display: inline-block;
+  width: 150px;
 }
 </style>
 <body>
 <div>
-    <span class='title'>From window:</span> <span id='window'></span>
+  <span class='title'>From window:</span> <span id='window'></span>
 </div>
 <div>
-    <span class='title'>From worker:</span> <span id='worker'></span>
+  <span class='title'>From worker:</span> <span id='worker'></span>
+</div>
+<div>
+  <span class='title'>From ServiceWorker:</span> <span id='sw'></span>
 </div>
 </body>
 <script>
+  // Window.
   document.querySelector('#window').textContent = navigator.userAgent;
+
+  // Worker.
   let worker = new Worker('worker.js');
   worker.addEventListener('message', e => {
     document.querySelector('#worker').textContent = e.data;
   });
   worker.postMessage('foo');
+
+  // Service Worker.
+  navigator.serviceWorker.addEventListener('message', e => {
+    document.querySelector('#sw').textContent = e.data;
+  });
+
+  navigator.serviceWorker.register('sw.js').then(() => {
+    return navigator.serviceWorker.ready;
+  }).then(() => {
+    if (navigator.serviceWorker.controller)
+      navigator.serviceWorker.controller.postMessage({ type: 'GET_USER_AGENT' });
+    else
+      document.querySelector('#sw').textContent = 'Reload page';
+  });
 </script>
