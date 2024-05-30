@@ -5,6 +5,10 @@
 <body>
 </body>
 <script>
+  const keySystems = [
+    "com.widevine.alpha",
+    "com.apple.fairplay",
+  ];
   const L3config = [{
     sessionTypes: ['persistent-license'],
     videoCapabilities: [{
@@ -20,23 +24,25 @@
     }]
   }];
 
-  navigator.requestMediaKeySystemAccess('com.widevine.alpha', L3config)
-    .then(access => { return true; })
-    .catch(error => { return false; })
-    .then(v => {
-        let d = document.createElement('div');
-        d.textContent = "L3 support: " + v;
-        document.body.appendChild(d);
-    });
+  keySystems.forEach(keySystem => {
+    navigator.requestMediaKeySystemAccess(keySystem, L3config)
+      .then(access => { return true; })
+      .catch(error => { return false; })
+      .then(v => {
+          let d = document.createElement('div');
+          d.textContent = "[" + keySystem + "] Software (aka L3) support: " + v;
+          document.body.appendChild(d);
+      });
 
-  navigator.requestMediaKeySystemAccess('com.widevine.alpha', L1config)
-    .then(access => { return true; })
-    .catch(error => { return false; })
-    .then(v => {
-        let d = document.createElement('div');
-        d.textContent = "L1 support: " + v;
-        document.body.appendChild(d);
-    });
+    navigator.requestMediaKeySystemAccess(keySystem, L1config)
+      .then(access => { return true; })
+      .catch(error => { return false; })
+      .then(v => {
+          let d = document.createElement('div');
+          d.textContent = "[" + keySystem + "] Hardware (aka L1) support: " + v;
+          document.body.appendChild(d);
+      });
+  });
 
 </script>
 </html>
