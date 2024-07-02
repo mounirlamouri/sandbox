@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+  details > details {
+    padding-left: 10px;
+  }
+  details > details > div {
+    padding-left: 10px;
+  }
+</style>
 </head>
 <body>
 </body>
@@ -9,15 +17,17 @@
     "com.widevine.alpha",
     //"com.apple.fairplay",
   ];
+  const sessionTypes = [
+    'persistent-license',
+    'temporary',
+  ]
   const L3config = [{
-    sessionTypes: ['persistent-license'],
     videoCapabilities: [{
       contentType: 'video/webm; codecs="vp09.00.10.08"',
       robustness: 'SW_SECURE_DECODE' // Widevine L3
     }]
   }];
   const L1config = [{
-    sessionTypes: ['persistent-license'],
     videoCapabilities: [{
       contentType: 'video/webm; codecs="vp09.00.10.08"',
       robustness: 'HW_SECURE_ALL' // Widevine L1
@@ -25,23 +35,43 @@
   }];
 
   keySystems.forEach(keySystem => {
-    navigator.requestMediaKeySystemAccess(keySystem, L3config)
-      .then(access => { return true; })
-      .catch(error => { return false; })
-      .then(v => {
-          let d = document.createElement('div');
-          d.textContent = "[" + keySystem + "] Software (aka L3) support: " + v;
-          document.body.appendChild(d);
-      });
+    let keySystemBlock = document.createElement('details');
+    keySystemBlock.open = true;
+    let summary = document.createElement('summary');
+    summary.textContent = 'keySystem: ' + keySystem;
+    keySystemBlock.appendChild(summary);
 
-    navigator.requestMediaKeySystemAccess(keySystem, L1config)
-      .then(access => { return true; })
-      .catch(error => { return false; })
-      .then(v => {
-          let d = document.createElement('div');
-          d.textContent = "[" + keySystem + "] Hardware (aka L1) support: " + v;
-          document.body.appendChild(d);
-      });
+    sessionTypes.forEach(sessionType => {
+      let sessionTypeBlock = document.createElement('details');
+      sessionTypeBlock.open = true;
+      let summary = document.createElement('summary');
+      summary.textContent = 'sessionType: ' + sessionType;
+      sessionTypeBlock.appendChild(summary);
+
+      let config = L3config;
+      config.sessionTypes = [ sessionType ];
+      navigator.requestMediaKeySystemAccess(keySystem, config)
+        .then(access => { return true; })
+        .catch(error => { return false; })
+        .then(v => {
+            let d = document.createElement('div');
+            d.textContent = "Software (aka L3) support: " + v;
+            sessionTypeBlock.appendChild(d);
+        });
+
+      navigator.requestMediaKeySystemAccess(keySystem, config)
+        .then(access => { return true; })
+        .catch(error => { return false; })
+        .then(v => {
+            let d = document.createElement('div');
+            d.textContent = "Hardware (aka L1) support: " + v;
+            sessionTypeBlock.appendChild(d);
+        });
+
+      keySystemBlock.appendChild(sessionTypeBlock);
+    });
+
+    document.body.appendChild(keySystemBlock);
   });
 
 </script>
