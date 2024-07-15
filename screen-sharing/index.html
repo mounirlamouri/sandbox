@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <video></video>
+    <button data-display='default' disabled>Start (default)</button>
+    <button data-display='browser' disabled>Start (browser)</button>
+    <button data-display='window'  disabled>Start (window)</button>
+    <button data-display='monitor' disabled>Start (monitor)</button>
+    <br>
+    <label>Exclude Monitor<input id='exclmonitor' type='checkbox'></label>
+    <br>
+    <span>Cursor</span>
+    <label>never<input name='cursor' type='radio' value='never'></label>
+    <label>always<input name='cursor' type='radio' value='always' checked></label>
+    <label>motion<input name='cursor' type='radio' value='motion'></label>
+    <div id='errorMsg'></div>
+</body>
+<script>
+function handleSuccess(stream) {
+  const video = document.querySelector('video');
+  video.srcObject = stream;
+
+  // demonstrates how to detect that the user has stopped
+  // sharing the screen via the browser UI.
+  stream.getVideoTracks()[0].addEventListener('ended', () => {
+    errorMsg('The user has ended sharing the screen');
+  });
+}
+
+function handleError(error) {
+  errorMsg(`getDisplayMedia error: ${error.name}`, error);
+}
+
+function errorMsg(msg, error) {
+  const errorElement = document.querySelector('#errorMsg');
+  errorElement.innerHTML += `<p>${msg}</p>`;
+  if (typeof error !== 'undefined') {
+    console.error(error);
+  }
+}
+
+function startCapture(display) {
+  const options = {audio: true, video: true};
+  if (display !== 'default') {
+    options.video = {displaySurface: display};
+  }
+  options.monitorTypeSurfaces = document.querySelector('#exclmonitor').checked ? 'exclude' : 'include';
+  options.cursor =  document.querySelector('input[name=cursor]:checked').value;
+  console.log(options);
+  navigator.mediaDevices.getDisplayMedia(options)
+      .then(handleSuccess, handleError);
+}
+
+function enableStartButtons() {
+    document.querySelectorAll('button').forEach(button => {
+        button.disabled = false;
+    });
+}
+
+function disableStartButtons() {
+    document.querySelectorAll('button').forEach(button => {
+        button.disabled = true;
+    });
+}
+
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', e => {
+    startCapture(e.target.dataset.display);
+  });
+});
+
+if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
+  enableStartButtons();
+} else {
+  errorMsg('getDisplayMedia is not supported');
+}
+</script>
+</html>
