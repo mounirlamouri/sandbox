@@ -24,6 +24,13 @@
     <label>never<input name='cursor' type='radio' value='never'></label>
     <label>always<input name='cursor' type='radio' value='always' checked></label>
     <label>motion<input name='cursor' type='radio' value='motion'></label>
+    <br>
+    <span>Framerate</span>
+    <label>30<input name='framerate' type='radio' value='30' checked></label>
+    <label>60<input name='framerate' type='radio' value='60'></label>
+    <label>72<input name='framerate' type='radio' value='72'></label>
+    <label>90<input name='framerate' type='radio' value='90'></label>
+    <label>120<input name='framerate' type='radio' value='120'></label>
     <div id='errorMsg'></div>
 </body>
 <script>
@@ -57,6 +64,8 @@ function startCapture(display) {
   }
   options.monitorTypeSurfaces = document.querySelector('#exclmonitor').checked ? 'exclude' : 'include';
   options.cursor =  document.querySelector('input[name=cursor]:checked').value;
+  options.frameRate =  document.querySelector('input[name=framerate]:checked').value;
+  console.log(options);
   navigator.mediaDevices.getDisplayMedia(options)
       .then(handleSuccess, handleError);
 }
