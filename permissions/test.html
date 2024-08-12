@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<button id='location'>Location</button>
+</body>
+<script>
+document.querySelector('#location').addEventListener('click', e => {
+  navigator.geolocation.getCurrentPosition(_ => {});
+});
+</script>
+</html>
