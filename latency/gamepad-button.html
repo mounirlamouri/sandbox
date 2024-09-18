@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gamepad Button Latency</title>
+	<style>
+		body {
+			background-color: white;
+		}
+	</style>
+</head>
+<body>
+</body>
+<script>
+    let gamepad = null;
+    let isBlack = false;
+
+    window.addEventListener('gamepadconnected', (event) => {
+        gamepad = event.gamepad;
+    });
+
+    window.addEventListener('gamepaddisconnected', () => {
+        gamepad = null;
+    });
+
+    function update() {
+        if (gamepad && gamepad.buttons[0].pressed) {
+            if (isBlack) {
+                document.body.style.backgroundColor = 'white';
+                isBlack = false;
+            } else {
+                document.body.style.backgroundColor = 'black';
+                isBlack = true;
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+</script>
+</html>
