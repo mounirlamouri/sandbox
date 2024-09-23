@@ -13,6 +13,7 @@
 <script>
     let gamepad = null;
     let isBlack = false;
+    let isPressed = false;
 
     window.addEventListener('gamepadconnected', (event) => {
         gamepad = event.gamepad;
@@ -22,18 +23,30 @@
         gamepad = null;
     });
 
+    function runRAFUpdate() {
+        requestAnimationFrame(update);
+    }
+
     function update() {
-        if (gamepad && gamepad.buttons[0].pressed) {
-            if (isBlack) {
-                document.body.style.backgroundColor = 'white';
-                isBlack = false;
-            } else {
-                document.body.style.backgroundColor = 'black';
-                isBlack = true;
-            }
+        // No gamepads yet.
+        if (!gamepad)
+            return runRAFUpdate();
+
+        // State hasn't changed.
+        if (isPressed == gamepad.buttons[0].pressed)
+            return runRAFUpdate();
+
+        isPressed = !isPressed;
+
+        if (isBlack) {
+            document.body.style.backgroundColor = 'white';
+            isBlack = false;
+        } else {
+            document.body.style.backgroundColor = 'black';
+            isBlack = true;
         }
 
-        requestAnimationFrame(update);
+        runRAFUpdate();
     }
 
     update();
