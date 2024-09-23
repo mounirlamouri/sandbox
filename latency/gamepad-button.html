@@ -13,7 +13,7 @@
 <script>
     let gamepad = null;
     let isBlack = false;
-    let isPressed = false;
+    let buttonsPressed = null;
 
     window.addEventListener('gamepadconnected', (event) => {
         gamepad = event.gamepad;
@@ -22,6 +22,20 @@
     window.addEventListener('gamepaddisconnected', () => {
         gamepad = null;
     });
+
+    function setButtons() {
+        for (let i = 0; i < gamepad.buttons.length; ++i) {
+            buttonsPressed[i] = gamepad.buttons[i].pressed;
+        }
+    }
+
+    function haveButtonsChanged() {
+        for (let i = 0; i < gamepad.buttons.length; ++i) {
+            if (buttonsPressed[i] != gamepad.buttons[i].pressed)
+                return true;
+        }
+        return false;
+    }
 
     function runRAFUpdate() {
         requestAnimationFrame(update);
@@ -32,11 +46,17 @@
         if (!gamepad)
             return runRAFUpdate();
 
+        if (buttonsPressed == null) {
+            buttonsPressed = new Array(gamepad.buttons.length);
+            setButtons();
+            return runRAFUpdate();
+        }
+
         // State hasn't changed.
-        if (isPressed == gamepad.buttons[0].pressed)
+        if (!haveButtonsChanged())
             return runRAFUpdate();
 
-        isPressed = !isPressed;
+        setButtons();
 
         if (isBlack) {
             document.body.style.backgroundColor = 'white';
