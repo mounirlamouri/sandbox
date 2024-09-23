@@ -12,7 +12,6 @@
 </body>
 <script>
     let gamepad = null;
-    let isBlack = false;
     let buttonsPressed = null;
 
     window.addEventListener('gamepadconnected', (event) => {
@@ -44,6 +43,14 @@
         return false;
     }
 
+    function oneButtonPressed() {
+        for (let i = 0; i < buttonsPressed.length; ++i) {
+            if (buttonsPressed[i])
+                return true;
+        }
+        return false;
+    }
+
     function runRAFUpdate() {
         requestAnimationFrame(update);
     }
@@ -63,13 +70,7 @@
 
         setButtons();
 
-        if (isBlack) {
-            document.body.style.backgroundColor = 'white';
-            isBlack = false;
-        } else {
-            document.body.style.backgroundColor = 'black';
-            isBlack = true;
-        }
+        document.body.style.backgroundColor = oneButtonPressed() ? 'black' : 'white';
 
         runRAFUpdate();
     }
