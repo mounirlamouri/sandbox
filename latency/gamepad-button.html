@@ -17,10 +17,17 @@
 
     window.addEventListener('gamepadconnected', (event) => {
         gamepad = event.gamepad;
+
+        // Initialise the buttons pressed object.
+        buttonsPressed = new Array(gamepad.buttons.length);
+        setButtons();
+
+        runRAFUpdate();
     });
 
     window.addEventListener('gamepaddisconnected', () => {
         gamepad = null;
+        // It will stop the updates.
     });
 
     function setButtons() {
@@ -42,15 +49,13 @@
     }
 
     function update() {
-        // No gamepads yet.
+        // No more gamepads. We shouldn't be in this state before one is
+        // connected.
         if (!gamepad)
-            return runRAFUpdate();
+            return;
 
-        if (buttonsPressed == null) {
-            buttonsPressed = new Array(gamepad.buttons.length);
-            setButtons();
-            return runRAFUpdate();
-        }
+        // Update the snapshot.
+        gamepad = navigator.getGamepads()[0];
 
         // State hasn't changed.
         if (!haveButtonsChanged())
@@ -68,7 +73,5 @@
 
         runRAFUpdate();
     }
-
-    update();
 </script>
 </html>
