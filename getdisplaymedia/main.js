@@ -10,6 +10,10 @@
 const preferredDisplaySurface = document.getElementById('displaySurface');
 const startButton = document.getElementById('startButton');
 const stopButton = document.getElementById('stopButton');
+const replayButton = document.getElementById('replayButton');
+
+let recorder = null;
+let recordChunks =[];
 
 if (adapter.browserDetails.browser === 'chrome' &&
     adapter.browserDetails.version >= 107) {
@@ -34,6 +38,14 @@ function handleSuccess(stream) {
     startButton.disabled = false;
     preferredDisplaySurface.disabled = false;
   });
+
+  recorder = new MediaRecorder(stream, { mimeType: "video/webm; codecs=vp9" });
+  recorder.start(1000);
+  recorder.addEventListener('dataavailable', e => {
+    console.log('dataavailable');
+    recordChunks.push(e.data);
+    console.log(e.data);
+  });
 }
 
 function handleError(error) {
@@ -48,7 +60,6 @@ function errorMsg(msg, error) {
   }
 }
 
-
 startButton.addEventListener('click', () => {
   const options = {audio: true, video: true};
   const displaySurface = preferredDisplaySurface.options[preferredDisplaySurface.selectedIndex].value;
@@ -58,6 +69,7 @@ startButton.addEventListener('click', () => {
   navigator.mediaDevices.getDisplayMedia(options)
       .then(handleSuccess, handleError).then(() => {
         stopButton.disabled = false;
+        replayButton.disabled = true;
       })
 });
 
@@ -65,6 +77,26 @@ stopButton.addEventListener('click', () => {
   startButton.disabled = false;
   stopButton.disabled = true;
   video.srcObject.getTracks().forEach(track => track.stop());
+
+  recorder.addEventListener('stop', e => {
+    replayButton.disabled = false;
+  });
+  recorder.stop();
+});
+
+replayButton.addEventListener('click', () => {
+  const d = new Date();
+  const blob = new Blob(recordChunks, { type: recorder.mimeType });
+  const url =  URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.style = 'display: none';
+  a.download = 'recording ' + d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + '_' + d.getHours() + ':' + d.getMinutes() + '.webm';
+  a.click();
+
+  // Cleaning up.
+  URL.revokeObjectURL(url);
+  recordChunks = [];
 });
 
 if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
