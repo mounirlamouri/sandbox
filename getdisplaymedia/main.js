@@ -9,6 +9,7 @@
 
 const preferredDisplaySurface = document.getElementById('displaySurface');
 const startButton = document.getElementById('startButton');
+const stopButton = document.getElementById('stopButton');
 
 if (adapter.browserDetails.browser === 'chrome' &&
     adapter.browserDetails.version >= 107) {
@@ -55,7 +56,15 @@ startButton.addEventListener('click', () => {
     options.video = {displaySurface};
   }
   navigator.mediaDevices.getDisplayMedia(options)
-      .then(handleSuccess, handleError);
+      .then(handleSuccess, handleError).then(() => {
+        stopButton.disabled = false;
+      })
+});
+
+stopButton.addEventListener('click', () => {
+  startButton.disabled = false;
+  stopButton.disabled = true;
+  video.srcObject.getTracks().forEach(track => track.stop());
 });
 
 if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
