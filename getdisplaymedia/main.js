@@ -11,6 +11,7 @@ const preferredDisplaySurface = document.getElementById('displaySurface');
 const startButton = document.getElementById('startButton');
 const stopButton = document.getElementById('stopButton');
 const replayButton = document.getElementById('replayButton');
+const applyConstraints = document.getElementById('applyConstraints');
 
 let recorder = null;
 let recordChunks =[];
@@ -70,12 +71,15 @@ startButton.addEventListener('click', () => {
       .then(handleSuccess, handleError).then(() => {
         stopButton.disabled = false;
         replayButton.disabled = true;
+        applyConstraints.disabled = false;
       })
 });
 
 stopButton.addEventListener('click', () => {
   startButton.disabled = false;
   stopButton.disabled = true;
+  applyConstraints.disable = true;
+
   video.srcObject.getTracks().forEach(track => track.stop());
 
   recorder.addEventListener('stop', e => {
@@ -97,6 +101,20 @@ replayButton.addEventListener('click', () => {
   // Cleaning up.
   URL.revokeObjectURL(url);
   recordChunks = [];
+});
+
+applyConstraints.addEventListener('click', () => {
+  console.log('apply constraints');
+  const stream = video.srcObject;
+
+  // Apply a random constraint on the stream, just for applying one.
+  stream.getVideoTracks()[0].applyConstraints({
+    width: { min: 640, ideal: 1280 },
+    height: { min: 480, ideal: 720 },
+    advanced: [{ width: 1920, height: 1280 }, { aspectRatio: 1.333 }],
+  }).then(() => {
+    console.log('constraints applied');
+  });
 });
 
 if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
