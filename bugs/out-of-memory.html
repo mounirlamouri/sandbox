@@ -12,7 +12,7 @@ async function test () {
   var l = document.createElement('div');
   document.body.appendChild(l);
   v.addEventListener('error', e => {
-    l.textContent = 'error event with: ' + e;
+    l.textContent = 'error event with: ' + e.message;
   });
   v.play().then(_ => {
     l.textContent = 'play() success';
