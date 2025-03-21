@@ -11,10 +11,13 @@ async function test () {
   v.src = window.URL.createObjectURL(x);
   var l = document.createElement('div');
   document.body.appendChild(l);
+  v.addEventListener('error', e => {
+    l.textContent = 'error event with: ' + e;
+  });
   v.play().then(_ => {
-    l.textContent = 'success';
+    l.textContent = 'play() success';
   }).catch(e => {
-    l.textContent = 'failed with ' + e;
+    l.textContent = 'play() failed with ' + e;
   });
 }
 
